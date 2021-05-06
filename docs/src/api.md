@@ -1,8 +1,4 @@
-# Wrapper functions for the POT library
-
-If you load the `PyCall` package, you get access to wrappers of functions
-in the [Python Optimal Transport (POT) package](https://pythonot.github.io/).
-The wrapper functions are available in the submodule `POT`.
+# API
 
 ## Exact optimal transport (Kantorovich) problem
 

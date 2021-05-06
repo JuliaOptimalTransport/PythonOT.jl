@@ -1,13 +1,3 @@
-module POT
-
-using ..PyCall
-
-const pot = PyNULL()
-
-function __init__()
-    copy!(pot, pyimport_conda("ot", "pot", "conda-forge"))
-end
-
 """
     emd(mu, nu, C)
 
@@ -25,7 +15,7 @@ This function is a wrapper of the function
 package.
 """
 function emd(mu, nu, C)
-    return pot.lp.emd(nu, mu, PyReverseDims(C))'
+    return pot.lp.emd(nu, mu, PyCall.PyReverseDims(C))'
 end
 
 """
@@ -45,7 +35,7 @@ This function is a wrapper of the function
 package.
 """
 function emd2(mu, nu, C)
-    return pot.lp.emd2(nu, mu, PyReverseDims(C))[1]
+    return pot.lp.emd2(nu, mu, PyCall.PyReverseDims(C))[1]
 end
 
 """
@@ -61,8 +51,17 @@ This function is a wrapper of the function
 [`sinkhorn`](https://pythonot.github.io/all.html?highlight=sinkhorn#ot.sinkhorn) in the
 Python Optimal Transport package.
 """
-function sinkhorn(mu, nu, C, eps; tol=1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
-    return pot.sinkhorn(nu, mu, PyReverseDims(C), eps; stopThr = tol, numItermax = max_iter, method = method, verbose = verbose)'
+function sinkhorn(mu, nu, C, eps; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false)
+    return pot.sinkhorn(
+        nu,
+        mu,
+        PyCall.PyReverseDims(C),
+        eps;
+        stopThr=tol,
+        numItermax=max_iter,
+        method=method,
+        verbose=verbose,
+    )'
 end
 
 """
@@ -78,8 +77,19 @@ This function is a wrapper of the function
 [`sinkhorn2`](https://pythonot.github.io/all.html?highlight=sinkhorn#ot.sinkhorn2) in the
 Python Optimal Transport package.
 """
-function sinkhorn2(mu, nu, C, eps; tol=1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
-    return pot.sinkhorn2(nu, mu, PyReverseDims(C), eps; stopThr = tol, numItermax = max_iter, method = method, verbose = verbose)[1]
+function sinkhorn2(
+    mu, nu, C, eps; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
+)
+    return pot.sinkhorn2(
+        nu,
+        mu,
+        PyCall.PyReverseDims(C),
+        eps;
+        stopThr=tol,
+        numItermax=max_iter,
+        method=method,
+        verbose=verbose,
+    )[1]
 end
 
 """
@@ -92,8 +102,20 @@ This function is a wrapper of the function
 [`sinkhorn_unbalanced`](https://pythonot.github.io/all.html?highlight=sinkhorn_unbalanced#ot.sinkhorn_unbalanced)
 in the Python Optimal Transport package.
 """
-function sinkhorn_unbalanced(mu, nu, C, eps, lambda; tol = 1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
-    return pot.sinkhorn_unbalanced(nu, mu, PyReverseDims(C), eps, lambda; stopThr = tol, numItermax = max_iter, method = method, verbose = verbose)'
+function sinkhorn_unbalanced(
+    mu, nu, C, eps, lambda; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
+)
+    return pot.sinkhorn_unbalanced(
+        nu,
+        mu,
+        PyCall.PyReverseDims(C),
+        eps,
+        lambda;
+        stopThr=tol,
+        numItermax=max_iter,
+        method=method,
+        verbose=verbose,
+    )'
 end
 
 """
@@ -106,8 +128,18 @@ This function is a wrapper of the function
 [`sinkhorn_unbalanced2`](https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced2) in
 the Python Optimal Transport package.
 """
-function sinkhorn_unbalanced2(mu, nu, C, eps, lambda; tol = 1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
-    return pot.sinkhorn_unbalanced2(nu, mu, PyReverseDims(C), eps, lambda; stopThr = tol, numItermax = max_iter, method = method, verbose = verbose)[1]
-end
-
+function sinkhorn_unbalanced2(
+    mu, nu, C, eps, lambda; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
+)
+    return pot.sinkhorn_unbalanced2(
+        nu,
+        mu,
+        PyCall.PyReverseDims(C),
+        eps,
+        lambda;
+        stopThr=tol,
+        numItermax=max_iter,
+        method=method,
+        verbose=verbose,
+    )[1]
 end
