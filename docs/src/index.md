@@ -1,14 +1,3 @@
-```@meta
-CurrentModule = POT
-```
+# POT.jl
 
-# POT
-
-Documentation for [POT](https://github.com/devmotion/POT.jl).
-
-```@index
-```
-
-```@autodocs
-Modules = [POT]
-```
+*Julia interface for the [Python Optimal Transport (POT) package](https://pythonot.github.io/)*

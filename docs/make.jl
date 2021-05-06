@@ -19,7 +19,7 @@ makedocs(;
         canonical="https://devmotion.github.io/POT.jl",
         assets=String[],
     ),
-    pages=["Home" => "index.md"],
+    pages=["Home" => "index.md", "api.md"],
     strict=true,
     checkdocs=:exports,
 )
