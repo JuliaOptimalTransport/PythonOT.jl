@@ -1,5 +1,11 @@
-using POT
 using Documenter
+
+# Print `@debug` statements (https://github.com/JuliaDocs/Documenter.jl/issues/955)
+if haskey(ENV, "GITHUB_ACTIONS")
+    ENV["JULIA_DEBUG"] = "Documenter"
+end
+
+using POT
 
 DocMeta.setdocmeta!(POT, :DocTestSetup, :(using POT); recursive=true)
 
@@ -13,12 +19,9 @@ makedocs(;
         canonical="https://devmotion.github.io/POT.jl",
         assets=String[],
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
+    strict=true,
+    checkdocs=:exports,
 )
 
-deploydocs(;
-    repo="github.com/devmotion/POT.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/devmotion/POT.jl", push_preview=true, devbranch="main")

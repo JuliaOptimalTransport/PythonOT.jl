@@ -1,3 +1,8 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 POT = "3c485715-4278-42b2-9b5f-8f00e43c12ef"
+
+[compat]
+Documenter = "0.26"
+POT = "0.1"
+julia = "1"
