@@ -8,8 +8,12 @@ using Pkg
 end
 
 using POT
+using Documenter
 using Test
 
 @testset "POT.jl" begin
-    # Write your tests here.
+    @testset "doctests" begin
+        DocMeta.setdocmeta!(POT, :DocTestSetup, :(using POT); recursive=true)
+        doctest(POT)
+    end
 end

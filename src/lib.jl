@@ -1,145 +1,239 @@
 """
-    emd(mu, nu, C)
+    emd(μ, ν, C; kwargs...)
 
-Compute transport map for Monge-Kantorovich problem with source and target marginals `mu`
-and `nu` and a cost matrix `C` of dimensions `(length(mu), length(nu))`.
+Compute the optimal transport map for the Monge-Kantorovich problem with source and target
+marginals `μ` and `ν` and cost matrix `C` of size `(length(μ), length(ν))`.
 
-Return optimal transport coupling `γ` of the same dimensions as `C` which solves 
-
+The optimal transport map `γ` is of the same size as `C` and solves
 ```math
-\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle.
 ```
 
 This function is a wrapper of the function
 [`emd`](https://pythonot.github.io/all.html#ot.emd) in the Python Optimal Transport
-package.
+package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> emd(μ, ν, C)
+3×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.0  0.2
+ 0.0  0.3
 """
-function emd(mu, nu, C)
-    return pot.lp.emd(nu, mu, PyCall.PyReverseDims(C))'
+function emd(μ, ν, C; kwargs...)
+    return pot.lp.emd(μ, ν, PyCall.PyReverseDims(permutedims(C)); kwargs...)
 end
 
 """
-    emd2(mu, nu, C)
+    emd2(μ, ν, C; kwargs...)
 
-Compute exact transport cost for Monge-Kantorovich problem with source and target marginals
-`mu` and `nu` and a cost matrix `C` of dimensions `(length(mu), length(nu))`.
+Compute the optimal transport cost for the Monge-Kantorovich problem with source and target
+marginals `μ` and `ν` and cost matrix `C` of size `(length(μ), length(ν))`.
 
-Returns optimal transport cost (a scalar), i.e. the optimal value
-
+The optimal transport cost is the scalar value
 ```math
-\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle.
 ```
 
 This function is a wrapper of the function
 [`emd2`](https://pythonot.github.io/all.html#ot.emd2) in the Python Optimal Transport
-package.
+package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> emd2(μ, ν, C)
+0.95
+```
 """
-function emd2(mu, nu, C)
-    return pot.lp.emd2(nu, mu, PyCall.PyReverseDims(C))[1]
+function emd2(μ, ν, C; kwargs...)
+    return pot.lp.emd2(μ, ν, PyCall.PyReverseDims(permutedims(C)); kwargs...)
 end
 
 """
-    sinkhorn(mu, nu, C, eps; tol=1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
+    sinkhorn(μ, ν, C, ε; kwargs...)
 
-Compute optimal transport map of histograms `mu` and `nu` with cost matrix `C` and entropic
-regularization parameter `eps`. 
+Compute the optimal transport map for the entropic regularization optimal transport problem
+with source and target marginals `μ` and `ν`, cost matrix `C` of size
+`(length(μ), length(ν))`, and entropic regularization parameter `ε`.
 
-Method can be a choice of `"sinkhorn"`, `"greenkhorn"`, `"sinkhorn_stabilized"`, or
-`"sinkhorn_epsilon_scaling"` (Flamary et al., 2017).
+The optimal transport map `γ` is of the same size as `C` and solves
+```math
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle
++ \\varepsilon \\Omega(\\gamma),
+```
+where ``\\Omega(\\gamma) = \\sum_{i,j} \\gamma_{i,j} \\log \\gamma_{i,j}`` is the entropic
+regularization term.
 
 This function is a wrapper of the function
-[`sinkhorn`](https://pythonot.github.io/all.html?highlight=sinkhorn#ot.sinkhorn) in the
-Python Optimal Transport package.
+[`sinkhorn`](https://pythonot.github.io/all.html#ot.sinkhorn) in the Python Optimal
+Transport package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> sinkhorn(μ, ν, C, 0.01)
+3×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.0  0.2
+ 0.0  0.3
 """
-function sinkhorn(mu, nu, C, eps; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false)
-    return pot.sinkhorn(
-        nu,
-        mu,
-        PyCall.PyReverseDims(C),
-        eps;
-        stopThr=tol,
-        numItermax=max_iter,
-        method=method,
-        verbose=verbose,
-    )'
+function sinkhorn(μ, ν, C, ε; kwargs...)
+    return pot.sinkhorn(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
 end
 
 """
-    sinkhorn2(mu, nu, C, eps; tol=1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
+    sinkhorn2(μ, ν, C, ε; kwargs...)
 
-Compute optimal transport cost of histograms `mu` and `nu` with cost matrix `C` and
-entropic regularization parameter `eps`.
+Compute the optimal transport cost for the entropic regularization optimal transport problem
+with source and target marginals `μ` and `ν`, cost matrix `C` of size
+`(length(μ), length(ν))`, and entropic regularization parameter `ε`.
 
-Method can be a choice of `"sinkhorn"`, `"greenkhorn"`, `"sinkhorn_stabilized"`, or
-`"sinkhorn_epsilon_scaling"` (Flamary et al., 2017).
+The optimal transport cost is the scalar value
+```math
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle
++ \\varepsilon \\Omega(\\gamma),
+```
+where ``\\Omega(\\gamma) = \\sum_{i,j} \\gamma_{i,j} \\log \\gamma_{i,j}`` is the entropic
+regularization term.
 
 This function is a wrapper of the function
-[`sinkhorn2`](https://pythonot.github.io/all.html?highlight=sinkhorn#ot.sinkhorn2) in the
-Python Optimal Transport package.
+[`sinkhorn2`](https://pythonot.github.io/all.html#ot.sinkhorn2) in the Python Optimal
+Transport package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> sinkhorn2(μ, ν, C, 0.01)
+1-element Vector{Float64}:
+ 0.9500000000000001
+```
 """
-function sinkhorn2(
-    mu, nu, C, eps; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
-)
-    return pot.sinkhorn2(
-        nu,
-        mu,
-        PyCall.PyReverseDims(C),
-        eps;
-        stopThr=tol,
-        numItermax=max_iter,
-        method=method,
-        verbose=verbose,
-    )[1]
+function sinkhorn2(μ, ν, C, ε; kwargs...)
+    return pot.sinkhorn2(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
 end
 
 """
-    sinkhorn_unbalanced(mu, nu, C, eps, lambda; tol = 1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
+    sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
 
-Compute optimal transport map of histograms `mu` and `nu` with cost matrix `C`, using
-entropic regularisation parameter `eps` and marginal weighting functions `lambda`.
+Compute the optimal transport map for the unbalanced entropic regularization optimal
+transport problem with source and target marginals `μ` and `ν`, cost matrix `C` of size
+`(length(μ), length(ν))`, entropic regularization parameter `ε`, and marginal relaxation
+term `λ`.
+
+The optimal transport map `γ` is of the same size as `C` and solves
+```math
+\\inf_{\\gamma} \\langle \\gamma, C \\rangle
++ \\varepsilon \\Omega(\\gamma)
++ \\lambda \\mathrm{KL}(\\gamma 1, \\mu)
++ \\lambda \\mathrm{KL}(\\gamma^{\\mathsf{T}} 1, \\nu),
+```
+where ``\\Omega(\\gamma) = \\sum_{i,j} \\gamma_{i,j} \\log \\gamma_{i,j}`` is the entropic
+regularization term and ``\\mathrm{KL}`` is the Kullback-Leibler divergence.
 
 This function is a wrapper of the function
-[`sinkhorn_unbalanced`](https://pythonot.github.io/all.html?highlight=sinkhorn_unbalanced#ot.sinkhorn_unbalanced)
-in the Python Optimal Transport package.
+[`sinkhorn_unbalanced`](https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
+3×2 Matrix{Float64}:
+ 0.0  0.499964
+ 0.0  0.200188
+ 0.0  0.29983
 """
-function sinkhorn_unbalanced(
-    mu, nu, C, eps, lambda; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
-)
+function sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced(
-        nu,
-        mu,
-        PyCall.PyReverseDims(C),
-        eps,
-        lambda;
-        stopThr=tol,
-        numItermax=max_iter,
-        method=method,
-        verbose=verbose,
-    )'
+        μ, ν, PyCall.PyReverseDims(permutedims(C)), ε, λ; kwargs...
+    )
 end
 
 """
-    sinkhorn_unbalanced2(mu, nu, C, eps, lambda; tol = 1e-9, max_iter = 1000, method = "sinkhorn", verbose = false)
+    sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
 
-Compute optimal transport cost of histograms `mu` and `nu` with cost matrix `C`, using
-entropic regularisation parameter `eps` and marginal weighting functions `lambda`.
+Compute the optimal transport cost for the unbalanced entropic regularization optimal
+transport problem with source and target marginals `μ` and `ν`, cost matrix `C` of size
+`(length(μ), length(ν))`, entropic regularization parameter `ε`, and marginal relaxation
+term `λ`.
+
+The optimal transport cost is the scalar value
+```math
+\\inf_{\\gamma} \\langle \\gamma, C \\rangle
++ \\varepsilon \\Omega(\\gamma)
++ \\lambda \\mathrm{KL}(\\gamma 1, \\mu)
++ \\lambda \\mathrm{KL}(\\gamma^{\\mathsf{T}} 1, \\nu),
+```
+where ``\\Omega(\\gamma) = \\sum_{i,j} \\gamma_{i,j} \\log \\gamma_{i,j}`` is the entropic
+regularization term and ``\\mathrm{KL}`` is the Kullback-Leibler divergence.
 
 This function is a wrapper of the function
-[`sinkhorn_unbalanced2`](https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced2) in
-the Python Optimal Transport package.
+[`sinkhorn_unbalanced2`](https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced2) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+
+# Examples
+
+```jldoctest
+julia> μ = [0.5, 0.2, 0.3];
+
+julia> ν = [0.0, 1.0];
+
+julia> C = [0.0  1.0;
+            2.0  0.0;
+            0.5  1.5];
+
+julia> sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000)
+1-element Vector{Float64}:
+ 0.949709187079973
+```
 """
-function sinkhorn_unbalanced2(
-    mu, nu, C, eps, lambda; tol=1e-9, max_iter=1000, method="sinkhorn", verbose=false
-)
+function sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced2(
-        nu,
-        mu,
-        PyCall.PyReverseDims(C),
-        eps,
-        lambda;
-        stopThr=tol,
-        numItermax=max_iter,
-        method=method,
-        verbose=verbose,
-    )[1]
+        μ, ν, PyCall.PyReverseDims(permutedims(C)), ε, λ; kwargs...
+    )
 end
