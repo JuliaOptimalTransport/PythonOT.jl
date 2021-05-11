@@ -138,7 +138,7 @@ julia> C = [0.0  1.0;
             2.0  0.0;
             0.5  1.5];
 
-julia> sinkhorn2(μ, ν, C, 0.01)
+julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
 1-element Vector{Float64}:
  0.95
 ```
@@ -227,9 +227,9 @@ julia> C = [0.0  1.0;
             2.0  0.0;
             0.5  1.5];
 
-julia> sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000)
+julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
 1-element Vector{Float64}:
- 0.949709187079973
+ 0.949709
 ```
 """
 function sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
