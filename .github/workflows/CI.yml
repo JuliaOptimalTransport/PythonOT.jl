@@ -62,7 +62,7 @@ jobs:
           PYTHON: ${{ matrix.python }}
       - uses: julia-actions/julia-runtest@v1
         with:
-          coverage: ${{ (matrix.coverage && true) || false }}
+          coverage: ${{ matrix.coverage || false }}
         env:
           PYTHON: ${{ matrix.python }}
       - uses: julia-actions/julia-processcoverage@v1
