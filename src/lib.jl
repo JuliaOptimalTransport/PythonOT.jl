@@ -29,6 +29,7 @@ julia> emd(μ, ν, C)
  0.0  0.5
  0.0  0.2
  0.0  0.3
+```
 """
 function emd(μ, ν, C; kwargs...)
     return pot.lp.emd(μ, ν, PyCall.PyReverseDims(permutedims(C)); kwargs...)
@@ -103,6 +104,7 @@ julia> sinkhorn(μ, ν, C, 0.01)
  0.0  0.5
  0.0  0.2
  0.0  0.3
+```
 """
 function sinkhorn(μ, ν, C, ε; kwargs...)
     return pot.sinkhorn(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
@@ -186,6 +188,7 @@ julia> sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
  0.0  0.499964
  0.0  0.200188
  0.0  0.29983
+```
 """
 function sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced(
