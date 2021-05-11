@@ -1,4 +1,7 @@
-name: CI
+name: JuliaNightly
+
+# Nightly Version of Julia. Runs on PRs and pushes to `master`,
+# but seperate workflow to `CI` to avoid failure notifications.
 
 on:
   push:
@@ -14,8 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.0'
-          - '1'
+          - 'nightly'
         os:
           - ubuntu-latest
           - macOS-latest
@@ -25,11 +27,6 @@ jobs:
         python:
           - ''
           - python
-        include:
-          - version: '1'
-            os: ubuntu-latest
-            arch: x64
-            coverage: true
     steps:
       - uses: actions/checkout@v2
       - name: Install python
@@ -62,17 +59,6 @@ jobs:
           PYTHON: ${{ matrix.python }}
       - uses: julia-actions/julia-runtest@v1
         with:
-          coverage: ${{ matrix.coverage || false }}
+          coverage: ${{ matrix.coverage }}
         env:
           PYTHON: ${{ matrix.python }}
-      - uses: julia-actions/julia-processcoverage@v1
-        if: matrix.coverage
-      - uses: codecov/codecov-action@v1
-        if: matrix.coverage
-        with:
-          file: lcov.info
-      - uses: coverallsapp/github-action@master
-        if: matrix.coverage
-        with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            path-to-lcov: ./lcov.info
