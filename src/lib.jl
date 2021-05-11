@@ -140,7 +140,7 @@ julia> C = [0.0  1.0;
 
 julia> sinkhorn2(μ, ν, C, 0.01)
 1-element Vector{Float64}:
- 0.9500000000000001
+ 0.95
 ```
 """
 function sinkhorn2(μ, ν, C, ε; kwargs...)

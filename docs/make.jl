@@ -22,6 +22,11 @@ makedocs(;
     pages=["Home" => "index.md", "api.md"],
     strict=true,
     checkdocs=:exports,
+    doctestfilters=[
+        r"{([a-zA-Z0-9]+,\s?)+[a-zA-Z0-9]+}",
+        r"(Array{[a-zA-Z0-9]+,\s?1}|Vector{[a-zA-Z0-9]+})",
+        r"(Array{[a-zA-Z0-9]+,\s?2}|Matrix{[a-zA-Z0-9]+})",
+    ],
 )
 
 deploydocs(; repo="github.com/devmotion/POT.jl", push_preview=true, devbranch="main")
