@@ -1,4 +1,4 @@
-module POT
+module PythonOT
 
 using PyCall: PyCall
 

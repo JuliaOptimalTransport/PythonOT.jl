@@ -7,15 +7,15 @@ using Pkg
     Pkg.instantiate()
 end
 
-using POT
+using PythonOT
 using Documenter
 using Test
 
-@testset "POT.jl" begin
+@testset "PythonOT.jl" begin
     @testset "doctests" begin
-        DocMeta.setdocmeta!(POT, :DocTestSetup, :(using POT); recursive=true)
+        DocMeta.setdocmeta!(PythonOT, :DocTestSetup, :(using PythonOT); recursive=true)
         doctest(
-            POT;
+            PythonOT;
             doctestfilters=[
                 r"{([a-zA-Z0-9]+,\s?)+[a-zA-Z0-9]+}",
                 r"(Array{[a-zA-Z0-9]+,\s?1}|Vector{[a-zA-Z0-9]+})",
