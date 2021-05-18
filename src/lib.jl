@@ -30,6 +30,8 @@ julia> emd(μ, ν, C)
  0.0  0.2
  0.0  0.3
 ```
+
+See also: [`emd2`](@ref)
 """
 function emd(μ, ν, C; kwargs...)
     return pot.lp.emd(μ, ν, PyCall.PyReverseDims(permutedims(C)); kwargs...)
@@ -64,6 +66,8 @@ julia> C = [0.0  1.0;
 julia> emd2(μ, ν, C)
 0.95
 ```
+
+See also: [`emd`](@ref)
 """
 function emd2(μ, ν, C; kwargs...)
     return pot.lp.emd2(μ, ν, PyCall.PyReverseDims(permutedims(C)); kwargs...)
@@ -105,6 +109,8 @@ julia> sinkhorn(μ, ν, C, 0.01)
  0.0  0.2
  0.0  0.3
 ```
+
+See also: [`sinkhorn2`](@ref)
 """
 function sinkhorn(μ, ν, C, ε; kwargs...)
     return pot.sinkhorn(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
@@ -144,6 +150,8 @@ julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
 1-element Vector{Float64}:
  0.95
 ```
+
+See also: [`sinkhorn`](@ref)
 """
 function sinkhorn2(μ, ν, C, ε; kwargs...)
     return pot.sinkhorn2(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
@@ -189,6 +197,8 @@ julia> sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
  0.0  0.200188
  0.0  0.29983
 ```
+
+See also: [`sinkhorn_unbalanced2`](@ref)
 """
 function sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced(
@@ -234,9 +244,54 @@ julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
 1-element Vector{Float64}:
  0.949709
 ```
+
+See also: [`sinkhorn_unbalanced`](@ref)
 """
 function sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced2(
         μ, ν, PyCall.PyReverseDims(permutedims(C)), ε, λ; kwargs...
+    )
+end
+
+"""
+    barycenter(A, C, ε; kwargs...)
+
+Compute the entropically regularized Wasserstein barycenter with histograms `A`, cost matrix
+`C`, and entropic regularization parameter `ε`.
+
+The Wasserstein barycenter is a histogram and solves
+```math
+\\inf_{a} \\sum_{i} W_{\\varepsilon,C}(a, a_i),
+```
+where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C}(a, a_i)}``
+is the optimal transport cost for the entropically regularized optimal transport problem
+with marginals ``a`` and ``a_i``, cost matrix ``C``, and entropic regularization parameter
+``\\varepsilon``. Optionally, weights of the histograms ``a_i`` can be provided with the
+keyword argument `weights`.
+
+This function is a wrapper of the function
+[`barycenter`](https://pythonot.github.io/all.html#ot.barycenter) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+
+# Examples
+
+```jldoctest
+julia> A = rand(10, 3);
+
+julia> A ./= sum(A; dims=1);
+
+julia> C = rand(10, 10);
+
+julia> isapprox(sum(barycenter(A, C, 0.01; method="sinkhorn_stabilized")), 1; atol=1e-4)
+true
+```
+"""
+function barycenter(A, C, ε; kwargs...)
+    return pot.barycenter(
+        PyCall.PyReverseDims(permutedims(A)),
+        PyCall.PyReverseDims(permutedims(C)),
+        ε;
+        kwargs...,
     )
 end

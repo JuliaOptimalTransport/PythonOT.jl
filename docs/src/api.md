@@ -12,6 +12,7 @@ emd2
 ```@docs
 sinkhorn
 sinkhorn2
+barycenter
 ```
 
 ## Unbalanced optimal transport
