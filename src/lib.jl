@@ -279,11 +279,11 @@ Python function.
 ```jldoctest
 julia> A = rand(10, 3);
 
-julia> A ./= sum(A; dims=1)
+julia> A ./= sum(A; dims=1);
 
 julia> C = rand(10, 10);
 
-julia> sum(barycenter(A, C, 0.01; method="sinkhorn_stabilized")) ≈ 1
+julia> isapprox(sum(barycenter(A, C, 0.01; method="sinkhorn_stabilized")), 1; atol=1e-4)
 true
 ```
 """
