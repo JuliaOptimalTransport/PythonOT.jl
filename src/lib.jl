@@ -240,3 +240,46 @@ function sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
         μ, ν, PyCall.PyReverseDims(permutedims(C)), ε, λ; kwargs...
     )
 end
+
+"""
+    barycenter(A, C, ε; kwargs...)
+
+Compute the entropically regularized Wasserstein barycenter with histograms `A`, cost matrix
+`C`, and entropic regularization parameter `ε`.
+
+The Wasserstein barycenter is a histogram and solves
+```math
+\\inf_{a} \\sum_{i} W_{\\varepsilon,C}(a, a_i),
+```
+where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C}(a, a_i)}``
+is the optimal transport cost for the entropically regularized optimal transport problem
+with marginals ``a`` and ``a_i``, cost matrix ``C``, and entropic regularization parameter
+``\\varepsilon``. Optionally, weights of the histograms ``a_i`` can be provided with the
+keyword argument `weights`.
+
+This function is a wrapper of the function
+[`barycenter`](https://pythonot.github.io/all.html#ot.barycenter) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+
+# Examples
+
+```jldoctest
+julia> A = rand(10, 3);
+
+julia> A ./= sum(A; dims=1)
+
+julia> C = rand(10, 10);
+
+julia> sum(barycenter(A, C, 0.01; method="sinkhorn_stabilized")) ≈ 1
+true
+```
+"""
+function barycenter(A, C, ε; kwargs...)
+    return pot.barycenter(
+        PyCall.PyReverseDims(permutedims(A)),
+        PyCall.PyReverseDims(permutedims(C)),
+        ε;
+        kwargs...,
+    )
+end
