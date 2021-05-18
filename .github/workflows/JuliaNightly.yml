@@ -59,6 +59,6 @@ jobs:
           PYTHON: ${{ matrix.python }}
       - uses: julia-actions/julia-runtest@v1
         with:
-          coverage: ${{ matrix.coverage }}
+          coverage: false
         env:
           PYTHON: ${{ matrix.python }}
