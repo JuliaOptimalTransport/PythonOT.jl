@@ -5,18 +5,18 @@ if haskey(ENV, "GITHUB_ACTIONS")
     ENV["JULIA_DEBUG"] = "Documenter"
 end
 
-using POT
+using PythonOT
 
-DocMeta.setdocmeta!(POT, :DocTestSetup, :(using POT); recursive=true)
+DocMeta.setdocmeta!(PythonOT, :DocTestSetup, :(using PythonOT); recursive=true)
 
 makedocs(;
-    modules=[POT],
+    modules=[PythonOT],
     authors="David Widmann",
-    repo="https://github.com/devmotion/POT.jl/blob/{commit}{path}#{line}",
-    sitename="POT.jl",
+    repo="https://github.com/devmotion/PythonOT.jl/blob/{commit}{path}#{line}",
+    sitename="PythonOT.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://devmotion.github.io/POT.jl",
+        canonical="https://devmotion.github.io/PythonOT.jl",
         assets=String[],
     ),
     pages=["Home" => "index.md", "api.md"],
@@ -29,4 +29,4 @@ makedocs(;
     ],
 )
 
-deploydocs(; repo="github.com/devmotion/POT.jl", push_preview=true, devbranch="main")
+deploydocs(; repo="github.com/devmotion/PythonOT.jl", push_preview=true, devbranch="main")
