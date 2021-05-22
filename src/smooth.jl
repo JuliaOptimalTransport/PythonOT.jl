@@ -24,7 +24,7 @@ the entropic regularization term
 
 The function solves the dual formulation[^BSR2018]
 ```math
-\\max{\\alpha, \\beta} \\mu^{\\mathsf{T}} \\alpha + \\nu^{\\mathsf{T}} \\beta −
+\\max_{\\alpha, \\beta} \\mu^{\\mathsf{T}} \\alpha + \\nu^{\\mathsf{T}} \\beta −
 \\sum_{j} \\delta_{\\Omega}(\\alpha + \\beta_j - C_j),
 ```
 where ``C_j`` is the ``j``th column of the cost matrix and ``\\delta_{\\Omega}`` is the
@@ -52,8 +52,6 @@ julia> smooth_ot_dual(μ, ν, C, 0.01)
  0.0  0.2
  0.0  0.300001
 ```
-
-# References
 
 [^BSR2018]: Blondel, M., Seguy, V., & Rolet, A. (2018). Smooth and Sparse Optimal Transport. In *Proceedings of the Twenty-First International Conference on Artificial Intelligence and Statistics (AISTATS)*.
 """
