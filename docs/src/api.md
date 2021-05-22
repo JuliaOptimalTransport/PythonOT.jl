@@ -7,12 +7,23 @@ emd
 emd2
 ```
 
-## Entropically regularised optimal transport
+## Regularized optimal transport
 
 ```@docs
 sinkhorn
 sinkhorn2
 barycenter
+```
+
+The submodule `Smooth` contains a function for solving regularized optimal
+transport problems with L2- and entropic regularization using the dual
+formulation. You can load the submodule with
+```julia
+using PythonOT.Smooth
+```
+
+```@docs
+PythonOT.Smooth.smooth_ot_dual
 ```
 
 ## Unbalanced optimal transport

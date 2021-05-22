@@ -10,7 +10,7 @@ using PythonOT
 DocMeta.setdocmeta!(PythonOT, :DocTestSetup, :(using PythonOT); recursive=true)
 
 makedocs(;
-    modules=[PythonOT],
+    modules=[PythonOT, PythonOT.Smooth],
     authors="David Widmann",
     repo="https://github.com/devmotion/PythonOT.jl/blob/{commit}{path}#{line}",
     sitename="PythonOT.jl",

@@ -7,6 +7,7 @@ export emd, emd2, sinkhorn, sinkhorn2, barycenter, sinkhorn_unbalanced, sinkhorn
 const pot = PyCall.PyNULL()
 
 include("lib.jl")
+include("smooth.jl")
 
 function __init__()
     return copy!(pot, PyCall.pyimport_conda("ot", "pot", "conda-forge"))
