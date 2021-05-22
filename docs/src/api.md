@@ -23,7 +23,7 @@ using PythonOT.Smooth
 ```
 
 ```@docs
-Smooth.smooth_ot_dual
+PythonOT.Smooth.smooth_ot_dual
 ```
 
 ## Unbalanced optimal transport
