@@ -24,7 +24,7 @@ the entropic regularization term
 
 The function solves the dual formulation[^BSR2018]
 ```math
-\\max{\\alpha, \\beta} \\mu^{\\mathsf{T}} \\alpha + \\nu^{\mathsf{T}} \\beta −
+\\max{\\alpha, \\beta} \\mu^{\\mathsf{T}} \\alpha + \\nu^{\\mathsf{T}} \\beta −
 \\sum_{j} \\delta_{\\Omega}(\\alpha + \\beta_j - C_j),
 ```
 where ``C_j`` is the ``j``th column of the cost matrix and ``\\delta_{\\Omega}`` is the
