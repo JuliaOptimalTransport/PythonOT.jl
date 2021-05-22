@@ -37,7 +37,7 @@ of the Python function.
 
 # Examples
 
-```jldoctest
+```jldoctest; setup=:(using PythonOT.Smooth)
 julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
