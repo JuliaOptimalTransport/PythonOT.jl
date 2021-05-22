@@ -1,10 +1,10 @@
 """
     emd(μ, ν, C; kwargs...)
 
-Compute the optimal transport map for the Monge-Kantorovich problem with source and target
+Compute the optimal transport plan for the Monge-Kantorovich problem with source and target
 marginals `μ` and `ν` and cost matrix `C` of size `(length(μ), length(ν))`.
 
-The optimal transport map `γ` is of the same size as `C` and solves
+The optimal transport plan `γ` is of the same size as `C` and solves
 ```math
 \\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle.
 ```
@@ -20,9 +20,7 @@ julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> emd(μ, ν, C)
 3×2 Matrix{Float64}:
@@ -59,9 +57,7 @@ julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> emd2(μ, ν, C)
 0.95
@@ -76,11 +72,11 @@ end
 """
     sinkhorn(μ, ν, C, ε; kwargs...)
 
-Compute the optimal transport map for the entropic regularization optimal transport problem
+Compute the optimal transport plan for the entropic regularization optimal transport problem
 with source and target marginals `μ` and `ν`, cost matrix `C` of size
 `(length(μ), length(ν))`, and entropic regularization parameter `ε`.
 
-The optimal transport map `γ` is of the same size as `C` and solves
+The optimal transport plan `γ` is of the same size as `C` and solves
 ```math
 \\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\langle \\gamma, C \\rangle
 + \\varepsilon \\Omega(\\gamma),
@@ -94,20 +90,30 @@ Transport package. Keyword arguments are listed in the documentation of the Pyth
 
 # Examples
 
-```jldoctest
+```jldoctest sinkhorn
 julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> sinkhorn(μ, ν, C, 0.01)
 3×2 Matrix{Float64}:
  0.0  0.5
  0.0  0.2
  0.0  0.3
+```
+
+It is possible to provide multiple target marginals as columns of a matrix. In this case the
+optimal transport costs are returned:
+
+```jldoctest sinkhorn
+julia> ν = [0.0 0.5; 1.0 0.5];
+
+julia> round.(sinkhorn(μ, ν, C, 0.01); sigdigits=6)
+2-element Vector{Float64}:
+ 0.95
+ 0.45
 ```
 
 See also: [`sinkhorn2`](@ref)
@@ -137,18 +143,27 @@ Transport package. Keyword arguments are listed in the documentation of the Pyth
 
 # Examples
 
-```jldoctest
+```jldoctest sinkhorn2
 julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
 1-element Vector{Float64}:
  0.95
+```
+
+It is possible to provide multiple target marginals as columns of a matrix.
+
+```jldoctest sinkhorn2
+julia> ν = [0.0 0.5; 1.0 0.5];
+
+julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
+2-element Vector{Float64}:
+ 0.95
+ 0.45
 ```
 
 See also: [`sinkhorn`](@ref)
@@ -160,12 +175,12 @@ end
 """
     sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
 
-Compute the optimal transport map for the unbalanced entropic regularization optimal
+Compute the optimal transport plan for the unbalanced entropic regularization optimal
 transport problem with source and target marginals `μ` and `ν`, cost matrix `C` of size
 `(length(μ), length(ν))`, entropic regularization parameter `ε`, and marginal relaxation
 term `λ`.
 
-The optimal transport map `γ` is of the same size as `C` and solves
+The optimal transport plan `γ` is of the same size as `C` and solves
 ```math
 \\inf_{\\gamma} \\langle \\gamma, C \\rangle
 + \\varepsilon \\Omega(\\gamma)
@@ -182,20 +197,30 @@ Python function.
 
 # Examples
 
-```jldoctest
+```jldoctest sinkhorn_unbalanced
 julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
 3×2 Matrix{Float64}:
  0.0  0.499964
  0.0  0.200188
  0.0  0.29983
+```
+
+It is possible to provide multiple target marginals as columns of a matrix. In this case the
+optimal transport costs are returned:
+
+```jldoctest sinkhorn_unbalanced
+julia> ν = [0.0 0.5; 1.0 0.5];
+
+julia> round.(sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000); sigdigits=6)
+2-element Vector{Float64}:
+ 0.949709
+ 0.449411
 ```
 
 See also: [`sinkhorn_unbalanced2`](@ref)
@@ -231,18 +256,27 @@ Python function.
 
 # Examples
 
-```jldoctest
+```jldoctest sinkhorn_unbalanced2
 julia> μ = [0.5, 0.2, 0.3];
 
 julia> ν = [0.0, 1.0];
 
-julia> C = [0.0  1.0;
-            2.0  0.0;
-            0.5  1.5];
+julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
 julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
 1-element Vector{Float64}:
  0.949709
+```
+
+It is possible to provide multiple target marginals as columns of a matrix:
+
+```jldoctest sinkhorn_unbalanced2
+julia> ν = [0.0 0.5; 1.0 0.5];
+
+julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
+2-element Vector{Float64}:
+ 0.949709
+ 0.449411
 ```
 
 See also: [`sinkhorn_unbalanced`](@ref)
@@ -263,7 +297,7 @@ The Wasserstein barycenter is a histogram and solves
 ```math
 \\inf_{a} \\sum_{i} W_{\\varepsilon,C}(a, a_i),
 ```
-where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C}(a, a_i)}``
+where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C}(a, a_i)``
 is the optimal transport cost for the entropically regularized optimal transport problem
 with marginals ``a`` and ``a_i``, cost matrix ``C``, and entropic regularization parameter
 ``\\varepsilon``. Optionally, weights of the histograms ``a_i`` can be provided with the
@@ -287,11 +321,4 @@ julia> isapprox(sum(barycenter(A, C, 0.01; method="sinkhorn_stabilized")), 1; at
 true
 ```
 """
-function barycenter(A, C, ε; kwargs...)
-    return pot.barycenter(
-        PyCall.PyReverseDims(permutedims(A)),
-        PyCall.PyReverseDims(permutedims(C)),
-        ε;
-        kwargs...,
-    )
-end
+barycenter(A, C, ε; kwargs...) = pot.barycenter(A, C, ε; kwargs...)
