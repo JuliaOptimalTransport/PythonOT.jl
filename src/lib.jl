@@ -154,7 +154,7 @@ julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
 See also: [`sinkhorn`](@ref)
 """
 function sinkhorn2(μ, ν, C, ε; kwargs...)
-    return pot.sinkhorn2(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)
+    return pot.sinkhorn2(μ, ν, PyCall.PyReverseDims(permutedims(C)), ε; kwargs...)[1]
 end
 
 """
@@ -250,7 +250,7 @@ See also: [`sinkhorn_unbalanced`](@ref)
 function sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)
     return pot.sinkhorn_unbalanced2(
         μ, ν, PyCall.PyReverseDims(permutedims(C)), ε, λ; kwargs...
-    )
+       )[1]
 end
 
 """
