@@ -1,6 +1,6 @@
 # API
 
-## Exact optimal transport (Kantorovich) problem
+## Exact optimal transport
 
 ```@docs
 emd
