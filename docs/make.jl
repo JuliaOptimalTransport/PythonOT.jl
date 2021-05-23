@@ -12,11 +12,11 @@ DocMeta.setdocmeta!(PythonOT, :DocTestSetup, :(using PythonOT); recursive=true)
 makedocs(;
     modules=[PythonOT, PythonOT.Smooth],
     authors="David Widmann",
-    repo="https://github.com/devmotion/PythonOT.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/{commit}{path}#{line}",
     sitename="PythonOT.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://devmotion.github.io/PythonOT.jl",
+        canonical="https://juliaoptimaltransport.github.io/PythonOT.jl",
         assets=String[],
     ),
     pages=["Home" => "index.md", "api.md"],
@@ -29,4 +29,6 @@ makedocs(;
     ],
 )
 
-deploydocs(; repo="github.com/devmotion/PythonOT.jl", push_preview=true, devbranch="main")
+deploydocs(;
+    repo="github.com/JuliaOptimalTransport/PythonOT.jl", push_preview=true, devbranch="main"
+)
