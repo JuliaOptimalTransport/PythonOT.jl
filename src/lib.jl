@@ -357,7 +357,7 @@ julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1; method="sinkhorn_stabil
 false
 
 julia> isapprox(sum(barycenter_unbalanced(
-           A, C, 0.01, 5_000; method="sinkhorn_stabilized", numItermax=5_000
+           A, C, 0.01, 10_000; method="sinkhorn_stabilized", numItermax=5_000
        )), 1; atol=1e-4)
 true
 ```
