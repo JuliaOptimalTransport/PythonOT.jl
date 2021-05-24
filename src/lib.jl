@@ -329,15 +329,18 @@ julia> C = rand(10, 10);
 julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1; method="sinkhorn_stabilized")), 1; atol=1e-4)
 false
 
-julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1000; method="sinkhorn_stabilized")), 1; atol=1e-4)
+julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 10000; method="sinkhorn_stabilized")), 1; atol=1e-4)
 true
 ```
+
+See also: [`barycenter`](@ref)
 """
 function barycenter_unbalanced(A, C, ε, λ; kwargs...)
     return pot.barycenter_unbalanced(
-                                     PyCall.PyReverseDims(permutedims(A)),
-                                     PyCall.PyReverseDims(permutedims(C)),
-                                     ε, 
-                                     λ;
-                                     kwargs...)
+        PyCall.PyReverseDims(permutedims(A)),
+        PyCall.PyReverseDims(permutedims(C)),
+        ε,
+        λ;
+        kwargs...,
+    )
 end

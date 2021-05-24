@@ -2,7 +2,14 @@ module PythonOT
 
 using PyCall: PyCall
 
-export emd, emd2, sinkhorn, sinkhorn2, barycenter, barycenter_unbalanced, sinkhorn_unbalanced, sinkhorn_unbalanced2
+export emd,
+    emd2,
+    sinkhorn,
+    sinkhorn2,
+    barycenter,
+    barycenter_unbalanced,
+    sinkhorn_unbalanced,
+    sinkhorn_unbalanced2
 
 const pot = PyCall.PyNULL()
 

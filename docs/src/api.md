@@ -20,4 +20,5 @@ barycenter
 ```@docs
 sinkhorn_unbalanced
 sinkhorn_unbalanced2
+barycenter_unbalanced
 ```
