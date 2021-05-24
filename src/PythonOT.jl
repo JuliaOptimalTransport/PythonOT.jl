@@ -14,6 +14,7 @@ export emd,
 const pot = PyCall.PyNULL()
 
 include("lib.jl")
+include("smooth.jl")
 
 function __init__()
     return copy!(pot, PyCall.pyimport_conda("ot", "pot", "conda-forge"))
