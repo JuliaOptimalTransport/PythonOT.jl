@@ -331,9 +331,9 @@ Compute the entropically regularized unbalanced Wasserstein barycenter with hist
 
 The Wasserstein barycenter is a histogram and solves
 ```math
-\\inf_{a} \\sum_{i} W_{\\varepsilon,C,λ}(a, a_i),
+\\inf_{a} \\sum_{i} W_{\\varepsilon,C,\\lambda}(a, a_i),
 ```
-where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C,λ}(a, a_i)}``
+where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C,\\lambda}(a, a_i)}``
 is the optimal transport cost for the entropically regularized optimal transport problem
 with marginals ``a`` and ``a_i``, cost matrix ``C``, entropic regularization parameter
 ``\\varepsilon`` and marginal relaxation parameter ``\\lambda``. Optionally, weights of the histograms ``a_i`` can be provided with the
@@ -356,7 +356,7 @@ julia> C = rand(10, 10);
 julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1; method="sinkhorn_stabilized")), 1; atol=1e-4)
 false
 
-julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 10000; method="sinkhorn_stabilized")), 1; atol=1e-4)
+julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1_000; method="sinkhorn_stabilized")), 1; atol=1e-4)
 true
 ```
 
