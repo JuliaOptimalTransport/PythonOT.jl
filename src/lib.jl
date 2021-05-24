@@ -362,4 +362,6 @@ true
 
 See also: [`barycenter`](@ref)
 """
-barycenter_unbalanced(A, C, ε, λ; kwargs...) = pot.barycenter_unbalanced(A, C, ε, λ; kwargs...)
+function barycenter_unbalanced(A, C, ε, λ; kwargs...)
+    return pot.barycenter_unbalanced(A, C, ε, λ; kwargs...)
+end
