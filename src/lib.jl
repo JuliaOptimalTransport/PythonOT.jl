@@ -322,3 +322,48 @@ true
 ```
 """
 barycenter(A, C, ε; kwargs...) = pot.barycenter(A, C, ε; kwargs...)
+
+"""
+    barycenter_unbalanced(A, C, ε, λ; kwargs...)
+
+Compute the entropically regularized unbalanced Wasserstein barycenter with histograms `A`, cost matrix
+`C`, entropic regularization parameter `ε` and marginal relaxation parameter `λ`.
+
+The Wasserstein barycenter is a histogram and solves
+```math
+\\inf_{a} \\sum_{i} W_{\\varepsilon,C,\\lambda}(a, a_i),
+```
+where the histograms ``a_i`` are columns of matrix `A` and ``W_{\\varepsilon,C,\\lambda}(a, a_i)}``
+is the optimal transport cost for the entropically regularized optimal transport problem
+with marginals ``a`` and ``a_i``, cost matrix ``C``, entropic regularization parameter
+``\\varepsilon`` and marginal relaxation parameter ``\\lambda``. Optionally, weights of the histograms ``a_i`` can be provided with the
+keyword argument `weights`.
+
+This function is a wrapper of the function
+[`barycenter_unbalanced`](https://pythonot.github.io/gen_modules/ot.unbalanced.html#ot.unbalanced.barycenter_unbalanced) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+
+# Examples
+
+```jldoctest
+julia> A = rand(10, 3);
+
+julia> A ./= sum(A; dims=1);
+
+julia> C = rand(10, 10);
+
+julia> isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1; method="sinkhorn_stabilized")), 1; atol=1e-4)
+false
+
+julia> isapprox(sum(barycenter_unbalanced(
+           A, C, 0.01, 10_000; method="sinkhorn_stabilized", numItermax=5_000
+       )), 1; atol=1e-4)
+true
+```
+
+See also: [`barycenter`](@ref)
+"""
+function barycenter_unbalanced(A, C, ε, λ; kwargs...)
+    return pot.barycenter_unbalanced(A, C, ε, λ; kwargs...)
+end
