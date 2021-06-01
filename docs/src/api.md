@@ -5,6 +5,8 @@
 ```@docs
 emd
 emd2
+emd_1d
+emd2_1d
 ```
 
 ## Regularized optimal transport
