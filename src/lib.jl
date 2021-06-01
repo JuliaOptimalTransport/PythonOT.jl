@@ -70,6 +70,79 @@ function emd2(μ, ν, C; kwargs...)
 end
 
 """
+    emd_1d(xsource, xtarget; kwargs...)
+
+Compute the optimal transport plan for the Monge-Kantorovich problem with univariate
+discrete measures with support `xsource` and `xtarget` as source and target marginals.
+
+This function is a wrapper of the function
+[`emd_1d`](https://pythonot.github.io/all.html#ot.emd_1d) in the Python Optimal Transport
+package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> xsource = [0.2, 0.5];
+
+julia> xtarget = [0.8, 0.3];
+
+julia> emd_1d(xsource, xtarget)
+2×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.5  0.0
+
+julia> histogram_source = [0.8, 0.2];
+
+julia> histogram_target = [0.7, 0.3];
+
+julia> emd_1d(xsource, xtarget; a=histogram_source, b=histogram_target)
+2×2 Matrix{Float64}:
+ 0.5  0.3
+ 0.2  0.0
+```
+
+See also: [`emd`](@ref), [`emd2_1d`](@ref)
+"""
+function emd_1d(xsource, xtarget; kwargs...)
+    return pot.lp.emd_1d(xsource, xtarget; kwargs...)
+end
+
+
+"""
+    emd2_1d(xsource, xtarget; kwargs...)
+
+Compute the optimal transport cost for the Monge-Kantorovich problem with univariate
+discrete measures with support `xsource` and `xtarget` as source and target marginals.
+
+This function is a wrapper of the function
+[`emd2_1d`](https://pythonot.github.io/all.html#ot.emd2_1d) in the Python Optimal Transport
+package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> xsource = [0.2, 0.5];
+
+julia> xtarget = [0.8, 0.3];
+
+julia> round(emd2_1d(xsource, xtarget); sigdigits=6)
+0.05
+
+julia> histogram_source = [0.8, 0.2];
+
+julia> histogram_target = [0.7, 0.3];
+
+julia> round(emd2_1d(xsource, xtarget; a=histogram_source, b=histogram_target); sigdigits=6)
+0.201
+```
+
+See also: [`emd2`](@ref), [`emd2_1d`](@ref)
+"""
+function emd2_1d(xsource, xtarget; kwargs...)
+    return pot.lp.emd2_1d(xsource, xtarget; kwargs...)
+end
+
+"""
     sinkhorn(μ, ν, C, ε; kwargs...)
 
 Compute the optimal transport plan for the entropic regularization optimal transport problem
