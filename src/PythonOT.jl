@@ -4,6 +4,8 @@ using PyCall: PyCall
 
 export emd,
     emd2,
+    emd_1d,
+    emd2_1d,
     sinkhorn,
     sinkhorn2,
     barycenter,
