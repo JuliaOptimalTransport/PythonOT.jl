@@ -107,7 +107,6 @@ function emd_1d(xsource, xtarget; kwargs...)
     return pot.lp.emd_1d(xsource, xtarget; kwargs...)
 end
 
-
 """
     emd2_1d(xsource, xtarget; kwargs...)
 
