@@ -270,10 +270,7 @@ See also: [`sinkhorn2`](@ref)
 """
 function empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
     return pot.bregman.empirical_sinkhorn_divergence(
-        reshape(xsource, Val(2)),
-        reshape(xtarget, Val(2)),
-        ε;
-        kwargs...
+        reshape(xsource, Val(2)), reshape(xtarget, Val(2)), ε; kwargs...
     )
 end
 
