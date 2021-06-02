@@ -259,7 +259,7 @@ package. Keyword arguments are listed in the documentation of the Python functio
 # Examples
 
 ```jldoctest empirical_sinkhorn_divergence
-julia> X_s = [1.0, 0.0, 3.0];
+julia> xsource = [1.0, 0.0, 3.0];
 
 julia> xtarget = [2.0, 3.0, 4.0];
 
