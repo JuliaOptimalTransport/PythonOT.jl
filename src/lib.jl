@@ -245,6 +245,50 @@ function sinkhorn2(μ, ν, C, ε; kwargs...)
 end
 
 """
+    empirical_sinkhorn_divergence(X_s, X_t, ε; metric="sqeuclidean", a=nothing, b=nothing, kwargs...)
+
+Compute the Sinkhorn Divergence from empirical data.
+`X_s` and `X_t` are arrays representing samples in the source domain and target domain, respectively.
+`reg` is the regularization term. `a` and `b` are optinal sample weights in the source
+and target domain, respectively.
+
+The Sinkhorn Divergence is computed as:
+```python
+sinkhorn_loss_ab = empirical_sinkhorn2(X_s, X_t, reg, a, b, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
+                                            verbose=verbose, log=log, **kwargs)
+
+sinkhorn_loss_a = empirical_sinkhorn2(X_s, X_s, reg, a, a, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
+                                        verbose=verbose, log=log, **kwargs)
+
+sinkhorn_loss_b = empirical_sinkhorn2(X_t, X_t, reg, b, b, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
+                                            verbose=verbose, log=log, **kwargs)
+
+return max(0,sinkhorn_loss_ab - 0.5 * (sinkhorn_loss_a + sinkhorn_loss_b)).
+```
+
+The formulation for the Sinkhorn Divergence may have slight variations depending on the paper consulted.
+The Sinkhorn Divergence was initially proposed by [^GPC18], although, `POT.py` uses the formulation given by
+[^FeydyP19].
+
+[^GPC18]: Aude Genevay, Gabriel Peyré, Marco Cuturi, Learning Generative Models with Sinkhorn Divergences,
+Proceedings of the Twenty-First International Conference on Artficial Intelligence and Statistics, (AISTATS) 21, 2018
+
+[^FeydyP19]: Jean Feydy, Thibault Séjourné, François-Xavier Vialard, Shun-ichi
+Amari, Alain Trouvé, and Gabriel Peyré. Interpolating between op-
+timal transport and mmd using sinkhorn divergences. In The 22nd In-
+ternational Conference on Artificial Intelligence and Statistics, pages
+2681–2690. PMLR, 2019.
+
+See also: [`sinkhorn2`](@ref)
+"""
+function empirical_sinkhorn_diverge(X_s, X_t, reg; metric="sqeuclidean", a=nothing, b=nothing, kwargs...)
+    return pot.bregman.empirical_sinkhorn_divergence(
+        typeof(X_s) <: Vector ? reshape(X_s,:,1) : X_s,
+        typeof(X_t) <: Vector ? reshape(X_t,:,1) : X_t,
+        reg; metric=metric, a=a, b=b)[1]
+end
+
+"""
     sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
 
 Compute the optimal transport plan for the unbalanced entropic regularization optimal
