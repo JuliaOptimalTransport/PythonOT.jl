@@ -281,11 +281,17 @@ ternational Conference on Artificial Intelligence and Statistics, pages
 
 See also: [`sinkhorn2`](@ref)
 """
-function empirical_sinkhorn_diverge(X_s, X_t, reg; metric="sqeuclidean", a=nothing, b=nothing, kwargs...)
+function empirical_sinkhorn_diverge(
+    X_s, X_t, reg; metric="sqeuclidean", a=nothing, b=nothing, kwargs...
+)
     return pot.bregman.empirical_sinkhorn_divergence(
-        typeof(X_s) <: Vector ? reshape(X_s,:,1) : X_s,
-        typeof(X_t) <: Vector ? reshape(X_t,:,1) : X_t,
-        reg; metric=metric, a=a, b=b)[1]
+        typeof(X_s) <: Vector ? reshape(X_s, :, 1) : X_s,
+        typeof(X_t) <: Vector ? reshape(X_t, :, 1) : X_t,
+        reg;
+        metric=metric,
+        a=a,
+        b=b,
+    )[1]
 end
 
 """
