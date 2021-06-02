@@ -275,7 +275,7 @@ function empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
         typeof(X_t) <: Vector ? reshape(X_t, :, 1) : X_t,
         reg;
         kwargs...,
-    )[1]
+    )
 end
 
 """
