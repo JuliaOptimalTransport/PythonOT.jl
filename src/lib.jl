@@ -281,7 +281,7 @@ ternational Conference on Artificial Intelligence and Statistics, pages
 
 See also: [`sinkhorn2`](@ref)
 """
-function empirical_sinkhorn_diverge(
+function empirical_sinkhorn_divergence(
     X_s, X_t, reg; metric="sqeuclidean", a=nothing, b=nothing, kwargs...
 )
     return pot.bregman.empirical_sinkhorn_divergence(
