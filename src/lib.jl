@@ -245,37 +245,36 @@ function sinkhorn2(μ, ν, C, ε; kwargs...)
 end
 
 """
-    empirical_sinkhorn_divergence(X_s, X_t, reg; kwargs...)
+    empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
 
 Compute the Sinkhorn Divergence from empirical data, where
-`X_s` and `X_t` are arrays representing samples in the source domain and target domain, respectively,
-and  `reg` is the regularization term. `a` and `b` are optinal sample weights in the source
-and target domain, respectively.
+`xsource` and `xtarget` are arrays representing samples in the source domain and target domain, respectively,
+and  `ε` is the regularization term.
 
 This function is a wrapper of the function
-[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/all.html#ot.emd) in the Python Optimal Transport
-package. Keyword arguments are listed in the documentation of the Python function.
+[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/gen_modules/ot.bregman.html?highlight=sinkhorn%20divergence#ot.bregman.empirical_sinkhorn_divergence)
+in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.
 
 # Examples
 
 ```jldoctest empirical_sinkhorn_divergence
-julia> X_s = [1.0, 0.0, 3.0];
+julia> xsource = [1.0, 0.0, 3.0];
 
-julia> X_t = [2.0, 3.0, 4.0];
+julia> xtarget = [2.0, 3.0, 4.0];
 
-julia> round(empirical_sinkhorn_divergence(X_s,X_t,1); sigdigits=3)
-j3.03
+julia> round(empirical_sinkhorn_divergence(xsource,xtarget,1)[1]; sigdigits=3)
+3.03
 ```
 
 See also: [`sinkhorn2`](@ref)
 """
-function empirical_sinkhorn_divergence(X_s, X_t, reg; kwargs...)
+function empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
     return pot.bregman.empirical_sinkhorn_divergence(
-        typeof(X_s) <: Vector ? reshape(X_s, :, 1) : X_s,
-        typeof(X_t) <: Vector ? reshape(X_t, :, 1) : X_t,
-        reg;
-        kwargs...,
-    )[1]
+        reshape(xsource, Val(2)),
+        reshape(xtarget, Val(2)),
+        ε;
+        kwargs...
+    )
 end
 
 """
