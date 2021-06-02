@@ -269,7 +269,7 @@ j3.03
 
 See also: [`sinkhorn2`](@ref)
 """
-function empirical_sinkhorn_divergence(X_s, X_t, reg; kwargs...)
+function empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
     return pot.bregman.empirical_sinkhorn_divergence(
         typeof(X_s) <: Vector ? reshape(X_s, :, 1) : X_s,
         typeof(X_t) <: Vector ? reshape(X_t, :, 1) : X_t,
