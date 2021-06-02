@@ -245,52 +245,33 @@ function sinkhorn2(μ, ν, C, ε; kwargs...)
 end
 
 """
-    empirical_sinkhorn_divergence(X_s, X_t, ε; metric="sqeuclidean", a=nothing, b=nothing, kwargs...)
+    empirical_sinkhorn_divergence(X_s, X_t, reg; kwargs...)
 
-Compute the Sinkhorn Divergence from empirical data.
-`X_s` and `X_t` are arrays representing samples in the source domain and target domain, respectively.
-`reg` is the regularization term. `a` and `b` are optinal sample weights in the source
+Compute the Sinkhorn Divergence from empirical data, where
+`X_s` and `X_t` are arrays representing samples in the source domain and target domain, respectively,
+and  `reg` is the regularization term. `a` and `b` are optinal sample weights in the source
 and target domain, respectively.
 
-The Sinkhorn Divergence is computed as:
-```python
-sinkhorn_loss_ab = empirical_sinkhorn2(X_s, X_t, reg, a, b, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
-                                            verbose=verbose, log=log, **kwargs)
+This function is a wrapper of the function
+[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/all.html#ot.emd) in the Python Optimal Transport
+package. Keyword arguments are listed in the documentation of the Python function.
 
-sinkhorn_loss_a = empirical_sinkhorn2(X_s, X_s, reg, a, a, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
-                                        verbose=verbose, log=log, **kwargs)
+```jldoctest sinkhorn
+julia> X_s = [1.0, 0.0, 3.0];
+julia> X_t = [2.0, 3.0, 4.0];
 
-sinkhorn_loss_b = empirical_sinkhorn2(X_t, X_t, reg, b, b, metric=metric, numIterMax=numIterMax, stopThr=1e-9,
-                                            verbose=verbose, log=log, **kwargs)
-
-return max(0,sinkhorn_loss_ab - 0.5 * (sinkhorn_loss_a + sinkhorn_loss_b)).
+julia> round(empirical_sinkhorn_divergence(X_s,X_t,1);sigdigits=3)
+ 3.03
 ```
-
-The formulation for the Sinkhorn Divergence may have slight variations depending on the paper consulted.
-The Sinkhorn Divergence was initially proposed by [^GPC18], although, `POT.py` uses the formulation given by
-[^FeydyP19].
-
-[^GPC18]: Aude Genevay, Gabriel Peyré, Marco Cuturi, Learning Generative Models with Sinkhorn Divergences,
-Proceedings of the Twenty-First International Conference on Artficial Intelligence and Statistics, (AISTATS) 21, 2018
-
-[^FeydyP19]: Jean Feydy, Thibault Séjourné, François-Xavier Vialard, Shun-ichi
-Amari, Alain Trouvé, and Gabriel Peyré. Interpolating between op-
-timal transport and mmd using sinkhorn divergences. In The 22nd In-
-ternational Conference on Artificial Intelligence and Statistics, pages
-2681–2690. PMLR, 2019.
 
 See also: [`sinkhorn2`](@ref)
 """
-function empirical_sinkhorn_divergence(
-    X_s, X_t, reg; metric="sqeuclidean", a=nothing, b=nothing, kwargs...
-)
+function empirical_sinkhorn_divergence(X_s, X_t, reg; kwargs...)
     return pot.bregman.empirical_sinkhorn_divergence(
         typeof(X_s) <: Vector ? reshape(X_s, :, 1) : X_s,
         typeof(X_t) <: Vector ? reshape(X_t, :, 1) : X_t,
         reg;
-        metric=metric,
-        a=a,
-        b=b,
+        kwargs...,
     )[1]
 end
 

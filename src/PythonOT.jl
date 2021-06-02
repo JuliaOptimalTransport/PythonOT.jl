@@ -12,7 +12,7 @@ export emd,
     barycenter_unbalanced,
     sinkhorn_unbalanced,
     sinkhorn_unbalanced2,
-    empirical_sinkhorn_diverge
+    empirical_sinkhorn_divergence
 
 const pot = PyCall.PyNULL()
 
