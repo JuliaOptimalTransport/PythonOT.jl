@@ -258,6 +258,7 @@ package. Keyword arguments are listed in the documentation of the Python functio
 
 ```jldoctest empirical_sinkhorn_divergence
 julia> X_s = [1.0, 0.0, 3.0];
+
 julia> X_t = [2.0, 3.0, 4.0];
 
 julia> round(empirical_sinkhorn_divergence(X_s,X_t,1); sigdigits=3)
