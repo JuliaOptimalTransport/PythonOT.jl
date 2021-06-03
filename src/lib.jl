@@ -257,13 +257,20 @@ in the Python Optimal Transport package. Keyword arguments are listed in the doc
 
 # Examples
 
-```jldoctest empirical_sinkhorn_divergence
-julia> xsource = [1.0, 0.0, 3.0];
+```jldoctest
+julia> xsource = [1];
 
-julia> xtarget = [2.0, 3.0, 4.0];
+julia> xtarget = [2, 3];
 
-julia> round(empirical_sinkhorn_divergence(xsource, xtarget, 1)[1]; sigdigits=3)
-3.03
+julia> ε = 0.01;
+
+julia> empirical_sinkhorn_divergence(xsource, xtarget, ε) ≈
+       sinkhorn2([1], [0.5, 0.5], [1 4], ε) -
+       (
+           sinkhorn2([1], [1], zeros(1, 1), ε) +
+           sinkhorn2([0.5, 0.5], [0.5, 0.5], [0 1; 1 0], ε)
+       ) / 2
+true
 ```
 
 See also: [`sinkhorn2`](@ref)
