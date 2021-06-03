@@ -247,12 +247,13 @@ end
 """
     empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
 
-Compute the Sinkhorn Divergence from empirical data, where
-`xsource` and `xtarget` are arrays representing samples in the source domain and target domain, respectively,
-and  `ε` is the regularization term.
+Compute the Sinkhorn divergence from empirical data, where `xsource` and `xtarget` are
+arrays representing samples in the source domain and target domain, respectively, and  `ε`
+is the regularization term.
 
 This function is a wrapper of the function
-[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/gen_modules/ot.bregman.html?highlight=sinkhorn%20divergence#ot.bregman.empirical_sinkhorn_divergence)
+[`ot.bregman.empirical_sinkhorn_divergence`]
+(https://pythonot.github.io/gen_modules/ot.bregman.html#ot.bregman.empirical_sinkhorn_divergence)
 in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.
 
 # Examples
@@ -262,7 +263,7 @@ julia> xsource = [1.0, 0.0, 3.0];
 
 julia> xtarget = [2.0, 3.0, 4.0];
 
-julia> round(empirical_sinkhorn_divergence(xsource,xtarget,1)[1]; sigdigits=3)
+julia> round(empirical_sinkhorn_divergence(xsource, xtarget, 1)[1]; sigdigits=3)
 3.03
 ```
 
