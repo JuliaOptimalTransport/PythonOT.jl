@@ -14,6 +14,7 @@ emd2_1d
 ```@docs
 sinkhorn
 sinkhorn2
+empirical_sinkhorn_divergence
 barycenter
 ```
 

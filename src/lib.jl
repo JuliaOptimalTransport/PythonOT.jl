@@ -245,6 +245,43 @@ function sinkhorn2(μ, ν, C, ε; kwargs...)
 end
 
 """
+    empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
+
+Compute the Sinkhorn divergence from empirical data, where `xsource` and `xtarget` are
+arrays representing samples in the source domain and target domain, respectively, and  `ε`
+is the regularization term.
+
+This function is a wrapper of the function
+[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/gen_modules/ot.bregman.html#ot.bregman.empirical_sinkhorn_divergence)
+in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.
+
+# Examples
+
+```jldoctest
+julia> xsource = [1];
+
+julia> xtarget = [2, 3];
+
+julia> ε = 0.01;
+
+julia> empirical_sinkhorn_divergence(xsource, xtarget, ε) ≈
+       sinkhorn2([1], [0.5, 0.5], [1 4], ε) -
+       (
+           sinkhorn2([1], [1], zeros(1, 1), ε) +
+           sinkhorn2([0.5, 0.5], [0.5, 0.5], [0 1; 1 0], ε)
+       ) / 2
+true
+```
+
+See also: [`sinkhorn2`](@ref)
+"""
+function empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)
+    return pot.bregman.empirical_sinkhorn_divergence(
+        reshape(xsource, Val(2)), reshape(xtarget, Val(2)), ε; kwargs...
+    )
+end
+
+"""
     sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)
 
 Compute the optimal transport plan for the unbalanced entropic regularization optimal
