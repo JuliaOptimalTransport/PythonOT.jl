@@ -252,8 +252,7 @@ arrays representing samples in the source domain and target domain, respectively
 is the regularization term.
 
 This function is a wrapper of the function
-[`ot.bregman.empirical_sinkhorn_divergence`]
-(https://pythonot.github.io/gen_modules/ot.bregman.html#ot.bregman.empirical_sinkhorn_divergence)
+[`ot.bregman.empirical_sinkhorn_divergence`](https://pythonot.github.io/gen_modules/ot.bregman.html#ot.bregman.empirical_sinkhorn_divergence)
 in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.
 
 # Examples
