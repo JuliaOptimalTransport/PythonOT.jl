@@ -222,8 +222,7 @@ julia> ν = [0.0, 1.0];
 
 julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
-julia> round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
-1-element Vector{Float64}:
+julia> round(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
  0.95
 ```
 
