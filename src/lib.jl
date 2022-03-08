@@ -476,3 +476,12 @@ See also: [`barycenter`](@ref)
 function barycenter_unbalanced(A, C, ε, λ; kwargs...)
     return pot.barycenter_unbalanced(A, C, ε, λ; kwargs...)
 end
+
+function gromov_wasserstein(μ, ν, Cμ, Cν, loss = "square_loss"; kwargs...)
+    return pot.gromov.gromov_wasserstein(Cμ, Cν, μ, ν, loss; kwargs...)
+end
+
+function entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss = "square_loss"; kwargs...)
+    return pot.gromov.entropic_gromov_wasserstein(Cμ, Cν, μ, ν, loss, ε; kwargs...)
+end
+
