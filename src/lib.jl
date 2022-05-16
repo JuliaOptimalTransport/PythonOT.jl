@@ -257,9 +257,9 @@ in the Python Optimal Transport package. Keyword arguments are listed in the doc
 # Examples
 
 ```jldoctest
-julia> xsource = [1, 2];
+julia> xsource = [0, 1];
 
-julia> xtarget = [1, 2, 3, 4];
+julia> xtarget = [0, 1, 2, 3];
 
 julia> ε = 0.1;
 
