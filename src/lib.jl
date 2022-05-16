@@ -263,7 +263,7 @@ julia> xtarget = Float64[0, 1, 2, 3];
 
 julia> ε = 0.1;
 
-julia> empirical_sinkhorn_divergence(xsource, xtarget, ε) ≈ 1.499887176049052
+julia> empirical_sinkhorn_divergence(xsource, xtarget, ε; warn=false) ≈ 1.499887176049052
 true
 ```
 
