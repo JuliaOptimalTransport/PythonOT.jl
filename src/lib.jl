@@ -477,11 +477,43 @@ function barycenter_unbalanced(A, C, ε, λ; kwargs...)
     return pot.barycenter_unbalanced(A, C, ε, λ; kwargs...)
 end
 
-function gromov_wasserstein(μ, ν, Cμ, Cν, loss = "square_loss"; kwargs...)
+"""
+    gromov_wasserstein(μ, ν, Cμ, Cν, loss = "square_loss"; kwargs...)
+
+Compute the exact Gromov-Wasserstein transport plan between `(μ, Cμ)` and `(ν, Cν)`.
+
+The Gromov-Wasserstein transport problem seeks to find a minimizer of 
+```math
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\sum_{i, j, k, l} L((C_μ)_{ik}, (C_ν)_{jl}) \\gamma_{ij} \\gamma_{kl},
+```
+where ``L`` is quadratic (`loss = "square_loss"`) or the Kullback-Leibler divergence (`loss = "kl_loss"`).
+
+This function is a wrapper of the function
+[`gromov_wasserstein`](https://pythonot.github.io/gen_modules/ot.gromov.html#ot.gromov.gromov_wasserstein) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+"""
+function gromov_wasserstein(μ, ν, Cμ, Cν, loss="square_loss"; kwargs...)
     return pot.gromov.gromov_wasserstein(Cμ, Cν, μ, ν, loss; kwargs...)
 end
 
-function entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss = "square_loss"; kwargs...)
+"""
+    entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss = "square_loss"; kwargs...)
+
+Compute the entropy-regularized Gromov-Wasserstein transport plan between `(μ, Cμ)` and `(ν, Cν)` with parameter `ε`.
+
+The entropy-regularized Gromov-Wasserstein transport problem seeks to find a minimizer of 
+```math
+\\inf_{\\gamma \\in \\Pi(\\mu, \\nu)} \\sum_{i, j, k, l} L((C_μ)_{ik}, (C_ν)_{jl}) \\gamma_{ij} \\gamma_{kl} + ε \\Omega(\\gamma),
+```
+where ``L`` is quadratic (`loss = "square_loss"`) or the Kullback-Leibler divergence (`loss = "kl_loss"`)
+and ``\\Omega(\\gamma) = \\sum_{ij} \\gamma_{ij} \\log(\\gamma_{ij})`` is the entropic regularization term. 
+
+This function is a wrapper of the function
+[`entropic_gromov_wasserstein`](https://pythonot.github.io/gen_modules/ot.gromov.html#ot.gromov.entropic_gromov_wasserstein) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+"""
+function entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss="square_loss"; kwargs...)
     return pot.gromov.entropic_gromov_wasserstein(Cμ, Cν, μ, ν, loss, ε; kwargs...)
 end
-
