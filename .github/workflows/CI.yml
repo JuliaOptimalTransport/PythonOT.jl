@@ -55,9 +55,9 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - name: Install POT
         run: |
-          using Conda
+          using PyCall: Conda
           Conda.add("pot")
-        shell: julia --color=yes {0}
+        shell: julia --project=. --color=yes {0}
       - uses: julia-actions/julia-runtest@v1
         with:
           coverage: ${{ matrix.coverage || false }}
