@@ -42,28 +42,21 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
-        env:
-          cache-name: cache-artifacts
-        with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
+      - uses: julia-actions/cache@v1
       - uses: julia-actions/julia-buildpkg@v1
       - name: Install POT
         run: |
           using PyCall: Conda
           Conda.add("pot"; channel="conda-forge")
+
+          # Workaround for https://github.com/JuliaPy/PyCall.jl/issues/999: Use conda's version of the library
+          open(ENV["GITHUB_ENV"], "a") do io
+            println(io, "LD_PRELOAD=", joinpath(Conda.ROOTENV, "lib", "libstdc++.so.6"))
+          end
         shell: julia --project=. --color=yes {0}
       - uses: julia-actions/julia-runtest@v1
         with:
           coverage: ${{ matrix.coverage || false }}
-        env:
-          # Workaround for https://github.com/JuliaPy/PyCall.jl/issues/999: Use conda's version of the library
-          LD_PRELOAD: $HOME/.julia/conda/3/lib/libstdc++.so.6
       - uses: julia-actions/julia-processcoverage@v1
         if: matrix.coverage
       - uses: codecov/codecov-action@v2
