@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>API · PythonOT.jl</title><link rel="canonical" href="https://juliaoptimaltransport.github.io/PythonOT.jl/api/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">PythonOT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>API</a><ul class="internal"><li><a class="tocitem" href="#Exact-optimal-transport"><span>Exact optimal transport</span></a></li><li><a class="tocitem" href="#Regularized-optimal-transport"><span>Regularized optimal transport</span></a></li><li><a class="tocitem" href="#Unbalanced-optimal-transport"><span>Unbalanced optimal transport</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>API</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>API</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/master/docs/src/api.md#" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="API"><a class="docs-heading-anchor" href="#API">API</a><a id="API-1"></a><a class="docs-heading-anchor-permalink" href="#API" title="Permalink"></a></h1><h2 id="Exact-optimal-transport"><a class="docs-heading-anchor" href="#Exact-optimal-transport">Exact optimal transport</a><a id="Exact-optimal-transport-1"></a><a class="docs-heading-anchor-permalink" href="#Exact-optimal-transport" title="Permalink"></a></h2><article class="docstring"><header><a class="docstring-binding" id="PythonOT.emd" href="#PythonOT.emd"><code>PythonOT.emd</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">emd(μ, ν, C; kwargs...)</code></pre><p>Compute the optimal transport plan for the Monge-Kantorovich problem with source and target marginals <code>μ</code> and <code>ν</code> and cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>.</p><p>The optimal transport plan <code>γ</code> is of the same size as <code>C</code> and solves</p><p class="math-container">\[\inf_{\gamma \in \Pi(\mu, \nu)} \langle \gamma, C \rangle.\]</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.emd"><code>emd</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; emd(μ, ν, C)
+3×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.0  0.2
+ 0.0  0.3</code></pre><p>See also: <a href="#PythonOT.emd2"><code>emd2</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L1-L33">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.emd2" href="#PythonOT.emd2"><code>PythonOT.emd2</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">emd2(μ, ν, C; kwargs...)</code></pre><p>Compute the optimal transport cost for the Monge-Kantorovich problem with source and target marginals <code>μ</code> and <code>ν</code> and cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>.</p><p>The optimal transport cost is the scalar value</p><p class="math-container">\[\inf_{\gamma \in \Pi(\mu, \nu)} \langle \gamma, C \rangle.\]</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.emd2"><code>emd2</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; emd2(μ, ν, C)
+0.95</code></pre><p>See also: <a href="#PythonOT.emd"><code>emd</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L38-L67">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.emd_1d" href="#PythonOT.emd_1d"><code>PythonOT.emd_1d</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">emd_1d(xsource, xtarget; kwargs...)</code></pre><p>Compute the optimal transport plan for the Monge-Kantorovich problem with univariate discrete measures with support <code>xsource</code> and <code>xtarget</code> as source and target marginals.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.emd_1d"><code>emd_1d</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; xsource = [0.2, 0.5];
+
+julia&gt; xtarget = [0.8, 0.3];
+
+julia&gt; emd_1d(xsource, xtarget)
+2×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.5  0.0
+
+julia&gt; histogram_source = [0.8, 0.2];
+
+julia&gt; histogram_target = [0.7, 0.3];
+
+julia&gt; emd_1d(xsource, xtarget; a=histogram_source, b=histogram_target)
+2×2 Matrix{Float64}:
+ 0.5  0.3
+ 0.2  0.0</code></pre><p>See also: <a href="#PythonOT.emd"><code>emd</code></a>, <a href="#PythonOT.emd2_1d"><code>emd2_1d</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L72-L105">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.emd2_1d" href="#PythonOT.emd2_1d"><code>PythonOT.emd2_1d</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">emd2_1d(xsource, xtarget; kwargs...)</code></pre><p>Compute the optimal transport cost for the Monge-Kantorovich problem with univariate discrete measures with support <code>xsource</code> and <code>xtarget</code> as source and target marginals.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.emd2_1d"><code>emd2_1d</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; xsource = [0.2, 0.5];
+
+julia&gt; xtarget = [0.8, 0.3];
+
+julia&gt; round(emd2_1d(xsource, xtarget); sigdigits=6)
+0.05
+
+julia&gt; histogram_source = [0.8, 0.2];
+
+julia&gt; histogram_target = [0.7, 0.3];
+
+julia&gt; round(emd2_1d(xsource, xtarget; a=histogram_source, b=histogram_target); sigdigits=6)
+0.201</code></pre><p>See also: <a href="#PythonOT.emd2"><code>emd2</code></a>, <a href="#PythonOT.emd2_1d"><code>emd2_1d</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L110-L139">source</a></section></article><h2 id="Regularized-optimal-transport"><a class="docs-heading-anchor" href="#Regularized-optimal-transport">Regularized optimal transport</a><a id="Regularized-optimal-transport-1"></a><a class="docs-heading-anchor-permalink" href="#Regularized-optimal-transport" title="Permalink"></a></h2><article class="docstring"><header><a class="docstring-binding" id="PythonOT.sinkhorn" href="#PythonOT.sinkhorn"><code>PythonOT.sinkhorn</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">sinkhorn(μ, ν, C, ε; kwargs...)</code></pre><p>Compute the optimal transport plan for the entropic regularization optimal transport problem with source and target marginals <code>μ</code> and <code>ν</code>, cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>, and entropic regularization parameter <code>ε</code>.</p><p>The optimal transport plan <code>γ</code> is of the same size as <code>C</code> and solves</p><p class="math-container">\[\inf_{\gamma \in \Pi(\mu, \nu)} \langle \gamma, C \rangle
++ \varepsilon \Omega(\gamma),\]</p><p>where <span>$\Omega(\gamma) = \sum_{i,j} \gamma_{i,j} \log \gamma_{i,j}$</span> is the entropic regularization term.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.sinkhorn"><code>sinkhorn</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; sinkhorn(μ, ν, C, 0.01)
+3×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.0  0.2
+ 0.0  0.3</code></pre><p>It is possible to provide multiple target marginals as columns of a matrix. In this case the optimal transport costs are returned:</p><pre><code class="language-julia-repl">julia&gt; ν = [0.0 0.5; 1.0 0.5];
+
+julia&gt; round.(sinkhorn(μ, ν, C, 0.01); sigdigits=6)
+2-element Vector{Float64}:
+ 0.95
+ 0.45</code></pre><p>See also: <a href="#PythonOT.sinkhorn2"><code>sinkhorn2</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L144-L192">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.sinkhorn2" href="#PythonOT.sinkhorn2"><code>PythonOT.sinkhorn2</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">sinkhorn2(μ, ν, C, ε; kwargs...)</code></pre><p>Compute the optimal transport cost for the entropic regularization optimal transport problem with source and target marginals <code>μ</code> and <code>ν</code>, cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>, and entropic regularization parameter <code>ε</code>.</p><p>The optimal transport cost is the scalar value</p><p class="math-container">\[\inf_{\gamma \in \Pi(\mu, \nu)} \langle \gamma, C \rangle
++ \varepsilon \Omega(\gamma),\]</p><p>where <span>$\Omega(\gamma) = \sum_{i,j} \gamma_{i,j} \log \gamma_{i,j}$</span> is the entropic regularization term.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.sinkhorn2"><code>sinkhorn2</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
+1-element Vector{Float64}:
+ 0.95</code></pre><p>It is possible to provide multiple target marginals as columns of a matrix.</p><pre><code class="language-julia-repl">julia&gt; ν = [0.0 0.5; 1.0 0.5];
+
+julia&gt; round.(sinkhorn2(μ, ν, C, 0.01); sigdigits=6)
+2-element Vector{Float64}:
+ 0.95
+ 0.45</code></pre><p>See also: <a href="#PythonOT.sinkhorn"><code>sinkhorn</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L197-L242">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.empirical_sinkhorn_divergence" href="#PythonOT.empirical_sinkhorn_divergence"><code>PythonOT.empirical_sinkhorn_divergence</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">empirical_sinkhorn_divergence(xsource, xtarget, ε; kwargs...)</code></pre><p>Compute the Sinkhorn divergence from empirical data, where <code>xsource</code> and <code>xtarget</code> are arrays representing samples in the source domain and target domain, respectively, and  <code>ε</code> is the regularization term.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/gen_modules/ot.bregman.html#ot.bregman.empirical_sinkhorn_divergence"><code>ot.bregman.empirical_sinkhorn_divergence</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; xsource = [1];
+
+julia&gt; xtarget = [2, 3];
+
+julia&gt; ε = 0.01;
+
+julia&gt; empirical_sinkhorn_divergence(xsource, xtarget, ε) ≈
+       sinkhorn2([1], [0.5, 0.5], [1 4], ε) -
+       (
+           sinkhorn2([1], [1], zeros(1, 1), ε) +
+           sinkhorn2([0.5, 0.5], [0.5, 0.5], [0 1; 1 0], ε)
+       ) / 2
+true</code></pre><p>See also: <a href="#PythonOT.sinkhorn2"><code>sinkhorn2</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L247-L277">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.barycenter" href="#PythonOT.barycenter"><code>PythonOT.barycenter</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">barycenter(A, C, ε; kwargs...)</code></pre><p>Compute the entropically regularized Wasserstein barycenter with histograms <code>A</code>, cost matrix <code>C</code>, and entropic regularization parameter <code>ε</code>.</p><p>The Wasserstein barycenter is a histogram and solves</p><p class="math-container">\[\inf_{a} \sum_{i} W_{\varepsilon,C}(a, a_i),\]</p><p>where the histograms <span>$a_i$</span> are columns of matrix <code>A</code> and <span>$W_{\varepsilon,C}(a, a_i)$</span> is the optimal transport cost for the entropically regularized optimal transport problem with marginals <span>$a$</span> and <span>$a_i$</span>, cost matrix <span>$C$</span>, and entropic regularization parameter <span>$\varepsilon$</span>. Optionally, weights of the histograms <span>$a_i$</span> can be provided with the keyword argument <code>weights</code>.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.barycenter"><code>barycenter</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; A = rand(10, 3);
+
+julia&gt; A ./= sum(A; dims=1);
+
+julia&gt; C = rand(10, 10);
+
+julia&gt; isapprox(sum(barycenter(A, C, 0.01; method=&quot;sinkhorn_stabilized&quot;)), 1; atol=1e-4)
+true</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L399-L432">source</a></section></article><p>The submodule <code>Smooth</code> contains a function for solving regularized optimal transport problems with L2- and entropic regularization using the dual formulation. You can load the submodule with</p><pre><code class="language-julia">using PythonOT.Smooth</code></pre><article class="docstring"><header><a class="docstring-binding" id="PythonOT.Smooth.smooth_ot_dual" href="#PythonOT.Smooth.smooth_ot_dual"><code>PythonOT.Smooth.smooth_ot_dual</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">smooth_ot_dual(μ, ν, C, ε; reg_type=&quot;l2&quot;, kwargs...)</code></pre><p>Compute the optimal transport plan for a regularized optimal transport problem with source and target marginals <code>μ</code> and <code>ν</code>, cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>, and regularization parameter <code>ε</code>.</p><p>The optimal transport map <code>γ</code> is of the same size as <code>C</code> and solves</p><p class="math-container">\[\inf_{\gamma \in \Pi(\mu, \nu)} \langle \gamma, C \rangle
++ \varepsilon \Omega(\gamma),\]</p><p>where <span>$\Omega(\gamma)$</span> is the L2-regularization term <span>$\Omega(\gamma) = \|\gamma\|_F^2/2$</span> if <code>reg_type=&quot;l2&quot;</code> (the default) or the entropic regularization term <span>$\Omega(\gamma) = \sum_{i,j} \gamma_{i,j} \log \gamma_{i,j}$</span> if <code>reg_type=&quot;kl&quot;</code>.</p><p>The function solves the dual formulation<sup class="footnote-reference"><a id="citeref-BSR2018" href="#footnote-BSR2018">[BSR2018]</a></sup></p><p class="math-container">\[\max_{\alpha, \beta} \mu^{\mathsf{T}} \alpha + \nu^{\mathsf{T}} \beta −
+\sum_{j} \delta_{\Omega}(\alpha + \beta_j - C_j),\]</p><p>where <span>$C_j$</span> is the <span>$j$</span>th column of the cost matrix and <span>$\delta_{\Omega}$</span> is the conjugate of the regularization term <span>$\Omega$</span>.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/gen_modules/ot.smooth.html#ot.smooth.smooth_ot_dual"><code>smooth_ot_dual</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; smooth_ot_dual(μ, ν, C, 0.01)
+3×2 Matrix{Float64}:
+ 0.0  0.5
+ 0.0  0.2
+ 0.0  0.300001</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/smooth.jl#L8-L55">source</a></section></article><h2 id="Unbalanced-optimal-transport"><a class="docs-heading-anchor" href="#Unbalanced-optimal-transport">Unbalanced optimal transport</a><a id="Unbalanced-optimal-transport-1"></a><a class="docs-heading-anchor-permalink" href="#Unbalanced-optimal-transport" title="Permalink"></a></h2><article class="docstring"><header><a class="docstring-binding" id="PythonOT.sinkhorn_unbalanced" href="#PythonOT.sinkhorn_unbalanced"><code>PythonOT.sinkhorn_unbalanced</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">sinkhorn_unbalanced(μ, ν, C, ε, λ; kwargs...)</code></pre><p>Compute the optimal transport plan for the unbalanced entropic regularization optimal transport problem with source and target marginals <code>μ</code> and <code>ν</code>, cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>, entropic regularization parameter <code>ε</code>, and marginal relaxation term <code>λ</code>.</p><p>The optimal transport plan <code>γ</code> is of the same size as <code>C</code> and solves</p><p class="math-container">\[\inf_{\gamma} \langle \gamma, C \rangle
++ \varepsilon \Omega(\gamma)
++ \lambda \mathrm{KL}(\gamma 1, \mu)
++ \lambda \mathrm{KL}(\gamma^{\mathsf{T}} 1, \nu),\]</p><p>where <span>$\Omega(\gamma) = \sum_{i,j} \gamma_{i,j} \log \gamma_{i,j}$</span> is the entropic regularization term and <span>$\mathrm{KL}$</span> is the Kullback-Leibler divergence.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced"><code>sinkhorn_unbalanced</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
+3×2 Matrix{Float64}:
+ 0.0  0.499964
+ 0.0  0.200188
+ 0.0  0.29983</code></pre><p>It is possible to provide multiple target marginals as columns of a matrix. In this case the optimal transport costs are returned:</p><pre><code class="language-julia-repl">julia&gt; ν = [0.0 0.5; 1.0 0.5];
+
+julia&gt; round.(sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000); sigdigits=6)
+2-element Vector{Float64}:
+ 0.949709
+ 0.449411</code></pre><p>See also: <a href="#PythonOT.sinkhorn_unbalanced2"><code>sinkhorn_unbalanced2</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L284-L336">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.sinkhorn_unbalanced2" href="#PythonOT.sinkhorn_unbalanced2"><code>PythonOT.sinkhorn_unbalanced2</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">sinkhorn_unbalanced2(μ, ν, C, ε, λ; kwargs...)</code></pre><p>Compute the optimal transport cost for the unbalanced entropic regularization optimal transport problem with source and target marginals <code>μ</code> and <code>ν</code>, cost matrix <code>C</code> of size <code>(length(μ), length(ν))</code>, entropic regularization parameter <code>ε</code>, and marginal relaxation term <code>λ</code>.</p><p>The optimal transport cost is the scalar value</p><p class="math-container">\[\inf_{\gamma} \langle \gamma, C \rangle
++ \varepsilon \Omega(\gamma)
++ \lambda \mathrm{KL}(\gamma 1, \mu)
++ \lambda \mathrm{KL}(\gamma^{\mathsf{T}} 1, \nu),\]</p><p>where <span>$\Omega(\gamma) = \sum_{i,j} \gamma_{i,j} \log \gamma_{i,j}$</span> is the entropic regularization term and <span>$\mathrm{KL}$</span> is the Kullback-Leibler divergence.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/all.html#ot.sinkhorn_unbalanced2"><code>sinkhorn_unbalanced2</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; μ = [0.5, 0.2, 0.3];
+
+julia&gt; ν = [0.0, 1.0];
+
+julia&gt; C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
+
+julia&gt; round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
+1-element Vector{Float64}:
+ 0.949709</code></pre><p>It is possible to provide multiple target marginals as columns of a matrix:</p><pre><code class="language-julia-repl">julia&gt; ν = [0.0 0.5; 1.0 0.5];
+
+julia&gt; round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
+2-element Vector{Float64}:
+ 0.949709
+ 0.449411</code></pre><p>See also: <a href="#PythonOT.sinkhorn_unbalanced"><code>sinkhorn_unbalanced</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L343-L392">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="PythonOT.barycenter_unbalanced" href="#PythonOT.barycenter_unbalanced"><code>PythonOT.barycenter_unbalanced</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">barycenter_unbalanced(A, C, ε, λ; kwargs...)</code></pre><p>Compute the entropically regularized unbalanced Wasserstein barycenter with histograms <code>A</code>, cost matrix <code>C</code>, entropic regularization parameter <code>ε</code> and marginal relaxation parameter <code>λ</code>.</p><p>The Wasserstein barycenter is a histogram and solves</p><p class="math-container">\[\inf_{a} \sum_{i} W_{\varepsilon,C,\lambda}(a, a_i),\]</p><p>where the histograms <span>$a_i$</span> are columns of matrix <code>A</code> and <span>$W_{\varepsilon,C,\lambda}(a, a_i)}$</span> is the optimal transport cost for the entropically regularized optimal transport problem with marginals <span>$a$</span> and <span>$a_i$</span>, cost matrix <span>$C$</span>, entropic regularization parameter <span>$\varepsilon$</span> and marginal relaxation parameter <span>$\lambda$</span>. Optionally, weights of the histograms <span>$a_i$</span> can be provided with the keyword argument <code>weights</code>.</p><p>This function is a wrapper of the function <a href="https://pythonot.github.io/gen_modules/ot.unbalanced.html#ot.unbalanced.barycenter_unbalanced"><code>barycenter_unbalanced</code></a> in the Python Optimal Transport package. Keyword arguments are listed in the documentation of the Python function.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl">julia&gt; A = rand(10, 3);
+
+julia&gt; A ./= sum(A; dims=1);
+
+julia&gt; C = rand(10, 10);
+
+julia&gt; isapprox(sum(barycenter_unbalanced(A, C, 0.01, 1; method=&quot;sinkhorn_stabilized&quot;)), 1; atol=1e-4)
+false
+
+julia&gt; isapprox(sum(barycenter_unbalanced(
+           A, C, 0.01, 10_000; method=&quot;sinkhorn_stabilized&quot;, numItermax=5_000
+       )), 1; atol=1e-4)
+true</code></pre><p>See also: <a href="#PythonOT.barycenter"><code>barycenter</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/c7d0f05e417afd9414a52a4134eafcb7a8ee7303/src/lib.jl#L435-L475">source</a></section></article><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-BSR2018"><a class="tag is-link" href="#citeref-BSR2018">BSR2018</a>Blondel, M., Seguy, V., &amp; Rolet, A. (2018). Smooth and Sparse Optimal Transport. In <em>Proceedings of the Twenty-First International Conference on Artificial Intelligence and Statistics (AISTATS)</em>.</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 3 June 2021 13:40">Thursday 3 June 2021</span>. Using Julia version 1.6.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
