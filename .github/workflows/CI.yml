@@ -14,13 +14,16 @@ concurrency:
 
 jobs:
   test:
-    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ (matrix.python && 'system Python') || 'conda' }}
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHON: '' # always use Conda.jl, even on Linux where `python`/`python3` is in the PATH
     strategy:
       fail-fast: false
       matrix:
         version:
-          - '1.8'
+          - '1.0'
+          - '1.6'
           - '1'
         os:
           - ubuntu-latest
@@ -28,54 +31,51 @@ jobs:
           - windows-latest
         arch:
           - x64
-        python:
-          - ''
-          - python
-        include:
-          - version: '1'
-            os: ubuntu-latest
+        exclude:
+          # Conda installation fails: https://github.com/JuliaPy/Conda.jl/issues/230
+          - version: '1.0'
+            os: windows-latest
             arch: x64
-            coverage: true
     steps:
       - uses: actions/checkout@v2
-      - name: Install python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-          architecture: ${{ matrix.arch }}
-        if: matrix.python
-      - run: python -m pip install pot
-        if: matrix.python
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
-        env:
-          cache-name: cache-artifacts
+      - uses: julia-actions/cache@v1
         with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
+          cache-packages: "false" # Weird interaction with PyCall settings?
       - uses: julia-actions/julia-buildpkg@v1
-        env:
-          PYTHON: ${{ matrix.python }}
+      - name: Install POT
+        run: |
+          using PyCall: Conda
+          Conda.add("nomkl") # Work around https://github.com/JuliaPy/PyPlot.jl/issues/315
+          Conda.add("pot"; channel="conda-forge")
+
+          # Workaround for https://github.com/JuliaPy/PyCall.jl/issues/999: Use conda's version of the library
+          if !Sys.iswindows()
+            open(ENV["GITHUB_ENV"], "a") do io
+              println(io, "LD_PRELOAD=", joinpath(Conda.ROOTENV, "lib", "libstdc++.so.6"))
+            end
+          end
+        shell: julia --project=. --color=yes {0}
       - uses: julia-actions/julia-runtest@v1
-        with:
-          coverage: ${{ matrix.coverage || false }}
-        env:
-          PYTHON: ${{ matrix.python }}
       - uses: julia-actions/julia-processcoverage@v1
-        if: matrix.coverage
       - uses: codecov/codecov-action@v2
-        if: matrix.coverage
         with:
-          file: lcov.info
+          files: lcov.info
       - uses: coverallsapp/github-action@master
-        if: matrix.coverage
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            path-to-lcov: ./lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./lcov.info
+          flag-name: run-${{ matrix.version }}
+          parallel: true
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
