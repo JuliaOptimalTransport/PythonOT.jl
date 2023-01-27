@@ -36,3 +36,10 @@ sinkhorn_unbalanced
 sinkhorn_unbalanced2
 barycenter_unbalanced
 ```
+
+## Gromov-Wasserstein transport
+
+```@docs
+gromov_wasserstein
+entropic_gromov_wasserstein
+```
