@@ -14,10 +14,10 @@ concurrency:
 
 jobs:
   test:
-    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ (matrix.python && 'system Python') || 'conda' }}
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     env:
-      PYTHON: '' # always use Conda.jl, even on Linux when `python`/`python3` is in the PATH
+      PYTHON: '' # always use Conda.jl, even on Linux where `python`/`python3` is in the PATH
     strategy:
       fail-fast: false
       matrix:
@@ -43,10 +43,13 @@ jobs:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v1
+        with:
+          cache-packages: "false" # Weird interaction with PyCall settings
       - uses: julia-actions/julia-buildpkg@v1
       - name: Install POT
         run: |
           using PyCall: Conda
+          Conda.add("nomkl") # Work around https://github.com/JuliaPy/PyPlot.jl/issues/315
           Conda.add("pot"; channel="conda-forge")
 
           # Workaround for https://github.com/JuliaPy/PyCall.jl/issues/999: Use conda's version of the library
