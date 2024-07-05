@@ -12,15 +12,14 @@ DocMeta.setdocmeta!(PythonOT, :DocTestSetup, :(using PythonOT); recursive=true)
 makedocs(;
     modules=[PythonOT, PythonOT.Smooth],
     authors="David Widmann",
-    repo="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/{commit}{path}#{line}",
     sitename="PythonOT.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://juliaoptimaltransport.github.io/PythonOT.jl",
+        repolink="https://github.com/JuliaOptimalTransport/PythonOT.jl/blob/{commit}{path}#{line}",
         assets=String[],
     ),
     pages=["Home" => "index.md", "api.md"],
-    strict=true,
     checkdocs=:exports,
     doctestfilters=[
         r"{([a-zA-Z0-9]+,\s?)+[a-zA-Z0-9]+}",
