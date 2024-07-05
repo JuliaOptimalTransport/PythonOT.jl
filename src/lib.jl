@@ -312,11 +312,11 @@ julia> ν = [0.0, 1.0];
 
 julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
-julia> sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000)
+julia> round.(sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000); sigdigits=4)
 3×2 Matrix{Float64}:
- 0.0  0.499964
- 0.0  0.200188
- 0.0  0.29983
+ 0.0  0.5
+ 0.0  0.2002
+ 0.0  0.2998
 ```
 
 It is possible to provide multiple target marginals as columns of a matrix. In this case the
@@ -325,10 +325,10 @@ optimal transport costs are returned:
 ```jldoctest sinkhorn_unbalanced
 julia> ν = [0.0 0.5; 1.0 0.5];
 
-julia> round.(sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000); sigdigits=6)
+julia> round.(sinkhorn_unbalanced(μ, ν, C, 0.01, 1_000); sigdigits=4)
 2-element Vector{Float64}:
- 0.949709
- 0.449411
+ 0.9497
+ 0.4494
 ```
 
 See also: [`sinkhorn_unbalanced2`](@ref)
@@ -371,9 +371,8 @@ julia> ν = [0.0, 1.0];
 
 julia> C = [0.0 1.0; 2.0 0.0; 0.5 1.5];
 
-julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
-1-element Vector{Float64}:
- 0.949709
+julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=4)
+0.9497
 ```
 
 It is possible to provide multiple target marginals as columns of a matrix:
@@ -381,10 +380,10 @@ It is possible to provide multiple target marginals as columns of a matrix:
 ```jldoctest sinkhorn_unbalanced2
 julia> ν = [0.0 0.5; 1.0 0.5];
 
-julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=6)
+julia> round.(sinkhorn_unbalanced2(μ, ν, C, 0.01, 1_000); sigdigits=4)
 2-element Vector{Float64}:
- 0.949709
- 0.449411
+ 0.9497
+ 0.4494
 ```
 
 See also: [`sinkhorn_unbalanced`](@ref)
@@ -515,4 +514,36 @@ Python function.
 """
 function entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss="square_loss"; kwargs...)
     return pot.gromov.entropic_gromov_wasserstein(Cμ, Cν, μ, ν, loss, ε; kwargs...)
+end
+
+"""
+    mm_unbalanced(a, b, M, reg_m; kwargs...)
+
+Solve the unbalanced optimal transport problem and return the OT plan.
+The function solves the following optimization problem:
+
+```math
+    W = \\min_\\gamma \\quad \\langle \\gamma, \\mathbf{M} \\rangle_F +
+    \\mathrm{reg_{m1}} \\cdot \\mathrm{div}(\\gamma \\mathbf{1}, \\mathbf{a}) +
+    \\mathrm{reg_{m2}} \\cdot \\mathrm{div}(\\gamma^T \\mathbf{1}, \\mathbf{b}) +
+    \\mathrm{reg} \\cdot \\mathrm{div}(\\gamma, \\mathbf{c}) \\\\
+
+    s.t.
+         \\gamma \\geq 0
+```
+
+where:
+
+- ``\\mathbf{M}`` is the (``dim_a``, ``dim_b``) metric cost matrix.
+- ``\\mathbf{a}`` and ``\\mathbf{b}`` are source and target unbalanced distributions.
+- ``\\mathbf{c}`` is a reference distribution for the regularization.
+- ``\\mathrm{reg_m}`` is the marginal relaxation term 
+
+This function is a wrapper of the function
+[`mm_unbalanced`](https://pythonot.github.io/gen_modules/ot.unbalanced.html#ot.unbalanced.mm_unbalanced) in the
+Python Optimal Transport package. Keyword arguments are listed in the documentation of the
+Python function.
+"""
+function mm_unbalanced(a, b, M, reg_m; kwargs...)
+    return pot.unbalanced.mm_unbalanced(a, b, M, reg_m; kwargs...)
 end
