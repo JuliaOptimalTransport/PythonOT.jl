@@ -517,7 +517,7 @@ function entropic_gromov_wasserstein(μ, ν, Cμ, Cν, ε, loss="square_loss"; k
 end
 
 """
-    mm_unbalanced(a, b, M, reg_m; kwargs...)
+    mm_unbalanced(a, b, M, reg_m; reg=0, c=a*b', kwargs...)
 
 Solve the unbalanced optimal transport problem and return the OT plan.
 The function solves the following optimization problem:
