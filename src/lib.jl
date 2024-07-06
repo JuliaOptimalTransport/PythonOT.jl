@@ -534,7 +534,8 @@ where
 - `M` is the metric cost matrix,
 - `a` and `b` are source and target unbalanced distributions,
 - `c` is a reference distribution for the regularization,
-- ``\\mathrm{reg_m}`` is the marginal relaxation term 
+- `reg_m` is the marginal relaxation term (if it is a scalar or an indexable object of length 1, then the same term is applied to both marginal relaxations), and
+- `reg` is a regularization term.
 
 This function is a wrapper of the function
 [`mm_unbalanced`](https://pythonot.github.io/gen_modules/ot.unbalanced.html#ot.unbalanced.mm_unbalanced) in the
