@@ -531,7 +531,7 @@ W = \\min_{\\gamma \\geq 0} \\langle \\gamma, M \\rangle_F +
 
 where
 
-- ``\\mathbf{M}`` is the (``dim_a``, ``dim_b``) metric cost matrix.
+- `M` is the metric cost matrix,
 - ``\\mathbf{a}`` and ``\\mathbf{b}`` are source and target unbalanced distributions.
 - ``\\mathbf{c}`` is a reference distribution for the regularization.
 - ``\\mathrm{reg_m}`` is the marginal relaxation term 
