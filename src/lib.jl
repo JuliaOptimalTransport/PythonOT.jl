@@ -533,7 +533,7 @@ where
 
 - `M` is the metric cost matrix,
 - `a` and `b` are source and target unbalanced distributions,
-- ``\\mathbf{c}`` is a reference distribution for the regularization.
+- `c` is a reference distribution for the regularization,
 - ``\\mathrm{reg_m}`` is the marginal relaxation term 
 
 This function is a wrapper of the function
