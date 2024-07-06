@@ -523,13 +523,10 @@ Solve the unbalanced optimal transport problem and return the OT plan.
 The function solves the following optimization problem:
 
 ```math
-    W = \\min_\\gamma \\quad \\langle \\gamma, \\mathbf{M} \\rangle_F +
-    \\mathrm{reg_{m1}} \\cdot \\mathrm{div}(\\gamma \\mathbf{1}, \\mathbf{a}) +
-    \\mathrm{reg_{m2}} \\cdot \\mathrm{div}(\\gamma^T \\mathbf{1}, \\mathbf{b}) +
-    \\mathrm{reg} \\cdot \\mathrm{div}(\\gamma, \\mathbf{c}) \\\\
-
-    s.t.
-         \\gamma \\geq 0
+W = \\min_{\\gamma \\geq 0} \\langle \\gamma, M \\rangle_F +
+    \\mathrm{reg_{m1}} \\cdot \\operatorname{div}(\\gamma \\mathbf{1}, a) +
+    \\mathrm{reg_{m2}} \\cdot \\operatorname{div}(\\gamma^\\mathsf{T} \\mathbf{1}, b) +
+    \\mathrm{reg} \\cdot \\operatorname{div}(\\gamma, c)
 ```
 
 where:
