@@ -529,7 +529,7 @@ W = \\min_{\\gamma \\geq 0} \\langle \\gamma, M \\rangle_F +
     \\mathrm{reg} \\cdot \\operatorname{div}(\\gamma, c)
 ```
 
-where:
+where
 
 - ``\\mathbf{M}`` is the (``dim_a``, ``dim_b``) metric cost matrix.
 - ``\\mathbf{a}`` and ``\\mathbf{b}`` are source and target unbalanced distributions.
