@@ -35,4 +35,5 @@ PythonOT.Smooth.smooth_ot_dual
 sinkhorn_unbalanced
 sinkhorn_unbalanced2
 barycenter_unbalanced
+mm_unbalanced
 ```
