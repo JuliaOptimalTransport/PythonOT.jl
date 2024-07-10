@@ -47,16 +47,9 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v4
-        env:
-          cache-name: cache-artifacts
+      - uses: julia-actions/cache@v2
         with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
+          cache-packages: "false" # Weird interaction with PyCall settings?
       - uses: julia-actions/julia-buildpkg@v1
         env:
           PYTHON: ${{ matrix.python }}
