@@ -541,6 +541,27 @@ This function is a wrapper of the function
 [`mm_unbalanced`](https://pythonot.github.io/gen_modules/ot.unbalanced.html#ot.unbalanced.mm_unbalanced) in the
 Python Optimal Transport package. Keyword arguments are listed in the documentation of the
 Python function.
+
+# Examples
+
+```jldoctest
+julia> a=[.5, .5];
+
+julia> b=[.5, .5];
+
+julia> M=[1. 36.; 9. 4.];
+
+julia> round.(mm_unbalanced(a, b, M, 5, div="kl"), digits=2)
+2×2 Matrix{Float64}:
+ 0.45  0.0
+ 0.0   0.34
+
+julia> round.(mm_unbalanced(a, b, M, 5, div="l2"), digits=2)
+2×2 Matrix{Float64}:
+ 0.4  0.0
+ 0.0  0.1
+```
+
 """
 function mm_unbalanced(a, b, M, reg_m; kwargs...)
     return pot.unbalanced.mm_unbalanced(a, b, M, reg_m; kwargs...)
