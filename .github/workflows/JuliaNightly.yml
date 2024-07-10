@@ -34,29 +34,22 @@ jobs:
           - ''
           - python
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
           architecture: ${{ matrix.arch }}
         if: matrix.python
       - run: python -m pip install pot
         if: matrix.python
-      - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
-        env:
-          cache-name: cache-artifacts
+      - uses: julia-actions/cache@v2
         with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
+          cache-packages: "false" # Weird interaction with PyCall settings?
       - uses: julia-actions/julia-buildpkg@v1
         env:
           PYTHON: ${{ matrix.python }}
